@@ -21,7 +21,7 @@ class AdminerDomainInBreadcrumb
 
 				var link = document.createElement("A");
 				link.innerHTML = document.domain;
-				link.href = "/";
+				link.href = document.location.pathname;
 				breadcrumb.insertBefore(link, breadcrumb.childNodes[0]);
 			}
 		});
