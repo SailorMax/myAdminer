@@ -42,7 +42,7 @@ if (isset($_GET["redis"])) {
 
 			function select_db($database) {
 				try {
-					$this->_db = $this->_link->select(substr($database, 2));
+					$this->_db = $this->_link->select(intval(substr($database, 2)));
 					return true;
 				} catch (Exception $ex) {
 					$this->error = $ex->getMessage();
@@ -146,68 +146,79 @@ if (isset($_GET["redis"])) {
 
 				$is_comples_values = false;
 				$values_list = array();
-				$value_type = $this->_conn->_link->type($table);
-				switch ($value_type) {
-					case Redis::REDIS_STRING:
-						$values_list[] = $this->_conn->_link->get($table);
-						break;
+				//$list = $connection->_link->keys("*");
 
-					case Redis::REDIS_LIST:
-						$values_list[] = $this->_conn->_link->lRange($table, $where[0], $limit);
-						break;
-
-					case Redis::REDIS_SET:
-						$is_comples_values = true;
-						$iterator = null;
-						$counter = $limit;
-						while ($item = $this->_conn->_link->sScan($table, $iterator, $where[0])) {
-							$values_list[] = array("id" => $item[0], "value" => $item[1]);
-							if (!($counter--)) {
+				$retuns = null;
+				$keys_list = $connection->_link->scan($retuns);	// get only part of records. to get other, require exec it more
+				if ($keys_list !== false)
+					foreach ($keys_list as $key)
+					{
+						$complex_value = array();
+						$value_type = $this->_conn->_link->type($key);
+						switch ($value_type) {
+							case Redis::REDIS_STRING:
+								$complex_value = $this->_conn->_link->get($key);
 								break;
-							}
-						}
-						break;
 
-					case Redis::REDIS_ZSET:
-						$is_comples_values = true;
-						$iterator = null;
-						$counter = $limit;
-						while ($item = $this->_conn->_link->zScan($table, $iterator, $where[0])) {
-							foreach ($item as $member => $score) {
-								$values_list[] = array("member" => $member, "score" => $score);
-							}
-							if (!($counter--))
+							case Redis::REDIS_LIST:
+								$complex_value = $this->_conn->_link->lRange($table, $where[0], $limit);
+								break;
+
+							case Redis::REDIS_SET:
+								$is_comples_values = true;
+								$iterator = null;
+								$counter = $limit;
+								while ($item = $this->_conn->_link->sScan($table, $iterator, $where[0])) {
+									$complex_value[] = array("id" => $item[0], "value" => $item[1]);
+									if (!($counter--)) {
+										break;
+									}
+								}
+								break;
+
+							case Redis::REDIS_ZSET:
+								$is_comples_values = true;
+								$iterator = null;
+								$counter = $limit;
+								while ($item = $this->_conn->_link->zScan($table, $iterator, $where[0])) {
+									foreach ($item as $member => $score) {
+										$complex_value[] = array("member" => $member, "score" => $score);
+									}
+									if (!($counter--))
+										break;
+								}
+								break;
+
+							case Redis::REDIS_HASH:
+								$is_comples_values = true;
+								$iterator = null;
+								$counter = $limit;
+								while ($item = $this->_conn->_link->hScan($table, $iterator, $where[0])) {
+									foreach ($item as $k => $v) {
+										$complex_value[] = array("key" => $k, "value" => $v);
+									}
+									if (!($counter--))
+										break;
+								}
+								break;
+
+							case Redis::REDIS_STREAM:
+								$is_comples_values = true;
+								$range_values = $this->_conn->_link->xRange($table, '-', '+', $limit);
+								foreach ($range_values as $k => $v) {
+									$complex_value[] = array("id" => $k, "value" => json_encode($v));
+								}
+								break;
+
+							case Redis::REDIS_NOT_FOUND:
+								break;
+
+							default:
 								break;
 						}
-						break;
 
-					case Redis::REDIS_HASH:
-						$is_comples_values = true;
-						$iterator = null;
-						$counter = $limit;
-						while ($item = $this->_conn->_link->hScan($table, $iterator, $where[0])) {
-							foreach ($item as $k => $v) {
-								$values_list[] = array("key" => $k, "value" => $v);
-							}
-							if (!($counter--))
-								break;
-						}
-						break;
-
-					case Redis::REDIS_STREAM:
-						$is_comples_values = true;
-						$range_values = $this->_conn->_link->xRange($table, '-', '+', $limit);
-						foreach ($range_values as $k => $v) {
-							$values_list[] = array("id" => $k, "value" => json_encode($v));
-						}
-						break;
-
-					case Redis::REDIS_NOT_FOUND:
-						break;
-
-					default:
-						break;
-				}
+						$values_list[] = array($key, $complex_value, $this->_conn->_link->ttl($key));
+					}
 
 				$result_rows = array();
 				if ($is_comples_values) {
@@ -215,8 +226,15 @@ if (isset($_GET["redis"])) {
 						$result_rows[] = $value;
 					}
 				} else {
-					foreach ($values_list as $value) {
-						$result_rows[] = array("key" => $table, "value" => json_encode($value));
+					foreach ($values_list as $values) {
+						if (is_array($values[1]))
+							$record = array("key" => $values[0], "value" => json_encode($values[1]), 'ttl' => $values[2]);
+						else
+							$record = array("key" => $values[0], "value" => $values[1], 'ttl' => $values[2]);
+
+						if ($select)
+							$record = array_filter($record, fn($k) => !empty($select[$k]), ARRAY_FILTER_USE_KEY);
+						$result_rows[] = $record;
 					}
 				}
 
@@ -240,7 +258,7 @@ if (isset($_GET["redis"])) {
 		function get_databases($flush) {
 			global $connection;
 			$return = array();
-			$dbs_cnt = $connection->_link->config("GET", "databases");
+			$dbs_cnt = $connection->_link->config("GET", "databases")["databases"];
 			if (!$dbs_cnt) {	// disabled access to CONFIG-command
 				$dbs_cnt = 15;
 			}
@@ -261,7 +279,8 @@ if (isset($_GET["redis"])) {
 
 		function tables_list() {
 			global $connection;
-			return array_fill_keys($connection->_link->keys("*"), 'table');;
+			//return array_fill_keys($connection->_link->keys("*"), 'table');
+			return array('[records]' => 'table');
 		}
 
 		function drop_databases($databases) {
@@ -307,12 +326,38 @@ if (isset($_GET["redis"])) {
 
 		function indexes($table, $connection2 = null) {
 			global $connection;
-			$return = array();
+			$return = array(
+				[
+					'type' => 'PRIMARY',
+					'columns' => ['key']
+				]
+			);
 			return $return;
 		}
 
 		function fields($table) {
-			return fields_from_edit();
+			$fields = fields_from_edit();
+			if (!$fields)
+			{
+				$fields = array(
+					'key'	=> array(
+								'field' => 'key',
+								'type' => 'text',
+								'privileges' => ['select' => 1]
+								),
+					'value'	=> array(
+								'field' => 'value',
+								'type' => 'text',
+								'privileges' => ['select' => 1]
+								),
+					'ttl'	=> array(
+								'field' => 'ttl',
+								'type' => 'integer',
+								'privileges' => ['select' => 1]
+								)
+				);
+			}
+			return $fields;
 		}
 
 		function found_rows($table_status, $where) {
@@ -385,7 +430,7 @@ if (isset($_GET["redis"])) {
 		if ($db != "") {
 			$options["db"] = $db;
 		}
-		if (($auth_source = getenv("MONGO_AUTH_SOURCE"))) {
+		if (($auth_source = getenv("REDIS_AUTH_SOURCE"))) {
 			$options["authSource"] = $auth_source;
 		}
 		$connection->connect("$server", $options);

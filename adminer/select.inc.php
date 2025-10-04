@@ -325,7 +325,7 @@ if (!$columns && support("table")) {
 			$rank = 1;
 			foreach ($rows[0] as $key => $val) {
 				if (!isset($unselected[$key])) {
-					$val = null;
+					$val = array();
 					if (isset($_GET["columns"][key($select)]))
 						$val = $_GET["columns"][key($select)];
 					$field = $fields[$select ? ($val ? $val["col"] : current($select)) : $key];
