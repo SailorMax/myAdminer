@@ -325,7 +325,9 @@ if (!$columns && support("table")) {
 			$rank = 1;
 			foreach ($rows[0] as $key => $val) {
 				if (!isset($unselected[$key])) {
-					$val = $_GET["columns"][key($select)];
+					$val = null;
+					if (isset($_GET["columns"][key($select)]))
+						$val = $_GET["columns"][key($select)];
 					$field = $fields[$select ? ($val ? $val["col"] : current($select)) : $key];
 					$name = ($field ? $adminer->fieldName($field, $rank) : ($val["fun"] ? "*" : $key));
 					if ($name != "") {
@@ -336,7 +338,7 @@ if (!$columns && support("table")) {
 						$desc = "&desc%5B0%5D=1";
 						echo "<th id='th[" . h(bracket_escape($key)) . "]'>" . script("mixin(qsl('th'), {onmouseover: partial(columnMouse), onmouseout: partial(columnMouse, ' hidden')});", "");
 						echo '<a href="' . h($href . ($order[0] == $column || $order[0] == $key || (!$order && $is_group && $group[0] == $column) ? $desc : '')) . '">'; // $order[0] == $key - COUNT(*)
-						echo apply_sql_function($val["fun"], $name) . "</a>"; //! columns looking like functions
+						echo apply_sql_function(($val?$val["fun"]:null), $name) . "</a>"; //! columns looking like functions
 						echo "<span class='column hidden'>";
 						echo "<a href='" . h($href . $desc) . "' title='" . lang('descending') . "' class='text'> ↓</a>";
 						if (!$val["fun"]) {
@@ -345,7 +347,8 @@ if (!$columns && support("table")) {
 						}
 						echo "</span>";
 					}
-					$functions[$key] = $val["fun"];
+					if ($val)
+						$functions[$key] = $val["fun"];
 					next($select);
 				}
 			}
@@ -436,7 +439,9 @@ if (!$columns && support("table")) {
 
 						$val = select_value($val, $link, $field, $text_length);
 						$id = h("val[$unique_idf][" . bracket_escape($key) . "]");
-						$value = $_POST["val"][$unique_idf][bracket_escape($key)];
+						$value = null;
+						if (isset($_POST["val"][$unique_idf][bracket_escape($key)]))
+							$value = $_POST["val"][$unique_idf][bracket_escape($key)];
 						$editable = !is_array($row[$key]) && is_utf8($val) && $rows[$n][$key] == $row[$key] && !$functions[$key];
 						$text = preg_match('~text|lob~', $field["type"]);
 						echo "<td id='$id'";
