@@ -7,6 +7,8 @@ if (isset($_GET["mongo"])) {
 	if (class_exists('MongoDB')) {
 		class Min_DB {
 			var $extension = "Mongo", $server_info = MongoClient::VERSION, $error, $last_id, $_link, $_db;
+			var $_result;
+			var $info;
 
 			function connect($uri, $options) {
 				try {
@@ -27,6 +29,18 @@ if (isset($_GET["mongo"])) {
 
 			function query($query) {
 				return false;
+			}
+
+			function multi_query($query) {
+				return $this->_result = $this->query($query);
+			}
+
+			function next_result() {
+				return false;
+			}
+
+			function store_result() {
+				return $this->_result;
 			}
 
 			function select_db($database) {
@@ -177,6 +191,36 @@ if (isset($_GET["mongo"])) {
 			return true;
 		}
 
+		function alter_table($table, $name, $fields, $foreign, $comment, $engine, $collation, $auto_increment, $partitioning, $row_format, $options) {
+			global $connection;
+			if ($table == "") {
+				$connection->_db->createCollection($name);
+				return true;
+			}
+		}
+
+		function drop_tables($tables) {
+			global $connection;
+			foreach ($tables as $table) {
+				$response = $connection->_db->selectCollection($table)->drop();
+				if (!$response['ok']) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		function truncate_tables($tables) {
+			global $connection;
+			foreach ($tables as $table) {
+				$response = $connection->_db->selectCollection($table)->remove();
+				if (!$response['ok']) {
+					return false;
+				}
+			}
+			return true;
+		}
+
 		function indexes($table, $connection2 = null) {
 			global $connection;
 			$return = array();
@@ -213,6 +257,8 @@ if (isset($_GET["mongo"])) {
 			/** @var MongoDB\Driver\Manager */
 			var $_link;
 			var $_db, $_db_name;
+			var $_result;
+			var $info;
 
 			function connect($uri, $options) {
 				$class = 'MongoDB\Driver\Manager';
@@ -243,6 +289,18 @@ if (isset($_GET["mongo"])) {
 
 			function query($query) {
 				return false;
+			}
+
+			function multi_query($query) {
+				return $this->_result = $this->query($query);
+			}
+
+			function next_result() {
+				return false;
+			}
+
+			function store_result() {
+				return $this->_result;
 			}
 
 			function select_db($database) {
@@ -425,6 +483,32 @@ if (isset($_GET["mongo"])) {
 			return false;
 		}
 
+		function alter_table($table, $name, $fields, $foreign, $comment, $engine, $collation, $auto_increment, $partitioning, $row_format, $options) {
+			global $connection;
+			if ($table == "") {
+				$response = $connection->executeCommand($connection->_db_name, array('create' => $name));	// https://www.php.net/manual/en/class.mongodb-driver-command.php
+				return !!$response->toArray()['ok'];
+			}
+			return false;
+		}
+
+		function drop_tables($tables) {
+			global $connection;
+			foreach ($tables as $table) {
+				$response = $connection->executeCommand($connection->_db_name, array('drop' => $table));	// https://www.php.net/manual/en/class.mongodb-driver-command.php
+				return !!$response->toArray()['ok'];
+			}
+			return true;
+		}
+
+		function truncate_tables($tables) {
+			global $connection, $driver;
+			foreach ($tables as $table) {
+				$driver->delete($table, "");
+			}
+			return true;
+		}
+
 		function indexes($table, $connection2 = null) {
 			global $connection;
 			$return = array();
@@ -475,8 +559,12 @@ if (isset($_GET["mongo"])) {
 		function found_rows($table_status, $where) {
 			global $connection;
 			$where = where_to_query($where);
-			$toArray = $connection->executeCommand($connection->_db_name, array('count' => $table_status['Name'], 'query' => $where))->toArray();
-			return $toArray[0]->n;
+			$cmdResult = $connection->executeCommand($connection->_db_name, array('count' => $table_status['Name'], 'query' => $where));
+			if ($cmdResult) {
+				$toArray = $cmdResult->toArray();
+				return $toArray[0]->n;
+			}
+			return 0;
 		}
 
 		function sql_query_where_parser($queryWhere) {
@@ -615,6 +703,10 @@ if (isset($_GET["mongo"])) {
 		return array();
 	}
 
+	function row_formats() {
+		return array();
+	}
+
 	function logged_user() {
 		global $adminer;
 		$credentials = $adminer->credentials();
@@ -699,36 +791,6 @@ if (isset($_GET["mongo"])) {
 
 	function engines() {
 		return array();
-	}
-
-	function alter_table($table, $name, $fields, $foreign, $comment, $engine, $collation, $auto_increment, $partitioning, $row_format, $options) {
-		global $connection;
-		if ($table == "") {
-			$connection->_db->createCollection($name);
-			return true;
-		}
-	}
-
-	function drop_tables($tables) {
-		global $connection;
-		foreach ($tables as $table) {
-			$response = $connection->_db->selectCollection($table)->drop();
-			if (!$response['ok']) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	function truncate_tables($tables) {
-		global $connection;
-		foreach ($tables as $table) {
-			$response = $connection->_db->selectCollection($table)->remove();
-			if (!$response['ok']) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	function driver_config() {
