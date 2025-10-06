@@ -10,11 +10,10 @@ class AdminerTablesListFilter
 {
 	function head()
 	{
-		global $adminer;
-		if ($adminer->database() === null)
+		if (Adminer\adminer()->database() === null)
 			return;
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		// text wrap in <code> blocks
 		var style = document.createElement('style');
 		style.type = 'text/css';

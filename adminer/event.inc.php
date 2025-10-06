@@ -1,4 +1,6 @@
 <?php
+namespace Adminer;
+
 $EVENT = $_GET["event"];
 $intervals = array("YEAR", "QUARTER", "MONTH", "DAY", "HOUR", "MINUTE", "WEEK", "SECOND", "YEAR_MONTH", "DAY_HOUR", "DAY_MINUTE", "DAY_SECOND", "HOUR_MINUTE", "HOUR_SECOND", "MINUTE_SECOND");
 $statuses = array("ENABLED" => "ENABLE", "DISABLED" => "DISABLE", "SLAVESIDE_DISABLED" => "DISABLE ON SLAVE");
@@ -15,14 +17,18 @@ if ($_POST && !$error) {
 			: "AT " . q($row["STARTS"])
 			) . " ON COMPLETION" . ($row["ON_COMPLETION"] ? "" : " NOT") . " PRESERVE"
 		;
-		
-		queries_redirect(substr(ME, 0, -1), ($EVENT != "" ? lang('Event has been altered.') : lang('Event has been created.')), queries(($EVENT != ""
-			? "ALTER EVENT " . idf_escape($EVENT) . $schedule
-			. ($EVENT != $row["EVENT_NAME"] ? "\nRENAME TO " . idf_escape($row["EVENT_NAME"]) : "")
-			: "CREATE EVENT " . idf_escape($row["EVENT_NAME"]) . $schedule
-			) . "\n" . $statuses[$row["STATUS"]] . " COMMENT " . q($row["EVENT_COMMENT"])
-			. rtrim(" DO\n$row[EVENT_DEFINITION]", ";") . ";"
-		));
+
+		queries_redirect(
+			substr(ME, 0, -1),
+			($EVENT != "" ? lang('Event has been altered.') : lang('Event has been created.')),
+			queries(
+				($EVENT != ""
+				? "ALTER EVENT " . idf_escape($EVENT) . $schedule . ($EVENT != $row["EVENT_NAME"] ? "\nRENAME TO " . idf_escape($row["EVENT_NAME"]) : "")
+				: "CREATE EVENT " . idf_escape($row["EVENT_NAME"]) . $schedule
+				) . "\n" . $statuses[$row["STATUS"]] . " COMMENT " . q($row["EVENT_COMMENT"])
+				. rtrim(" DO\n$row[EVENT_DEFINITION]", ";") . ";"
+			)
+		);
 	}
 }
 
@@ -35,7 +41,7 @@ if (!$row && $EVENT != "") {
 ?>
 
 <form action="" method="post">
-<table cellspacing="0" class="layout">
+<table class="layout">
 <tr><th><?php echo lang('Name'); ?><td><input name="EVENT_NAME" value="<?php echo h($row["EVENT_NAME"]); ?>" data-maxlength="64" autocapitalize="off">
 <tr><th title="datetime"><?php echo lang('Start'); ?><td><input name="STARTS" value="<?php echo h("$row[EXECUTE_AT]$row[STARTS]"); ?>">
 <tr><th title="datetime"><?php echo lang('End'); ?><td><input name="ENDS" value="<?php echo h($row["ENDS"]); ?>">
@@ -47,6 +53,8 @@ if (!$row && $EVENT != "") {
 <p><?php textarea("EVENT_DEFINITION", $row["EVENT_DEFINITION"]); ?>
 <p>
 <input type="submit" value="<?php echo lang('Save'); ?>">
-<?php if ($EVENT != "") { ?><input type="submit" name="drop" value="<?php echo lang('Drop'); ?>"><?php echo confirm(lang('Drop %s?', $EVENT)); ?><?php } ?>
-<input type="hidden" name="token" value="<?php echo $token; ?>">
+<?php if ($EVENT != "") { ?>
+<input type="submit" name="drop" value="<?php echo lang('Drop'); ?>"><?php echo confirm(lang('Drop %s?', $EVENT)); ?>
+<?php } ?>
+<?php echo input_token(); ?>
 </form>

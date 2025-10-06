@@ -11,7 +11,7 @@ class AdminerSubmitAtRight
 	function head()
 	{
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 			// some Submit buttons move to the right

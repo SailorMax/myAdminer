@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	// label for database system selection (MySQL, SQLite, ...)
 	'System' => '系统',
 	'Server' => '服务器',
@@ -10,10 +12,10 @@ $translations = array(
 	'Logout' => '登出',
 	'Logged as: %s' => '登录用户：%s',
 	'Logout successful.' => '成功登出。',
-	'Thanks for using Adminer, consider <a href="https://www.adminer.org/en/donation/">donating</a>.' => '感谢使用Adminer，请考虑为我们<a href="https://www.adminer.org/en/donation/">捐款（英文页面）</a>.',
+	'Thanks for using Adminer, consider <a href="https://www.adminer.org/en/donation/">donating</a>.' => '感谢使用Adminer，请考虑为我们<a href="https://www.adminer.org/en/donation/">捐款（英文页面）</a>。',
 	'Invalid credentials.' => '无效凭据。',
 	'There is a space in the input password which might be the cause.' => '您输入的密码中有一个空格，这可能是导致问题的原因。',
-	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => 'Adminer默认不支持访问没有密码的数据库，<a href="https://www.adminer.org/en/password/"%s>详情见这里</a>.',
+	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => 'Adminer默认不支持访问没有密码的数据库，<a href="https://www.adminer.org/en/password/"%s>详情见这里</a>。',
 	'Database does not support password.' => '数据库不支持密码。',
 	'Too many unsuccessful logins, try again in %d minute(s).' => '登录失败次数过多，请 %d 分钟后重试。',
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => '主密码已过期。<a href="https://www.adminer.org/en/extension/"%s>请扩展</a> %s 方法让它永久化。',
@@ -29,7 +31,7 @@ $translations = array(
 	'The action will be performed after successful login with the same credentials.' => '此操作将在成功使用相同的凭据登录后执行。',
 	'%s version: %s through PHP extension %s' => '%s 版本：%s， 使用PHP扩展 %s',
 	'Refresh' => '刷新',
-	
+
 	// text direction - 'ltr' or 'rtl'
 	'ltr' => 'ltr',
 
@@ -45,7 +47,7 @@ $translations = array(
 	'Revoke' => '废除',
 
 	'Process list' => '进程列表',
-	'%d process(es) have been killed.' => '%d 个进程被终止',
+	'%d process(es) have been killed.' => '%d 个进程被终止。',
 	'Kill' => '终止',
 
 	'Variables' => '变量',
@@ -89,7 +91,6 @@ $translations = array(
 	'Data' => '数据',
 
 	'Database' => '数据库',
-	'database' => '数据库',
 	'DB' => '数据库',
 	'Use' => '使用',
 	'Select database' => '选择数据库',
@@ -207,7 +208,6 @@ $translations = array(
 	'Alter indexes' => '修改索引',
 	'Add next' => '下一行插入',
 	'Index Type' => '索引类型',
-	'Column (length)' => '列（长度）',
 
 	'Foreign keys' => '外键',
 	'Foreign key' => '外键',
@@ -291,13 +291,6 @@ $translations = array(
 	'Delete' => '删除',
 	'You have no privileges to update this table.' => '您没有权限更新这个表。',
 
-	'E-mail' => '电子邮件',
-	'From' => '来自',
-	'Subject' => '主题',
-	'Attachments' => '附件',
-	'Send' => '发送',
-	'%d e-mail(s) have been sent.' => '%d 封邮件已发送。',
-
 	// data type descriptions
 	'Numbers' => '数字',
 	'Date and time' => '日期时间',
@@ -347,3 +340,5 @@ $translations = array(
 	'Type has been created.' => '已创建类型。',
 	'Alter type' => '修改类型',
 );
+
+// run `php ../../lang.php zh` to update this file

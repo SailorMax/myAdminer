@@ -10,14 +10,13 @@ class AdminerTableEditByFields
 {
 	function head()
 	{
-		global $adminer;
-		if ($adminer->database() === null)
+		if (Adminer\adminer()->database() === null)
 			return;
 
 		if (!function_exists("get_page_table"))		// not modified adminer sources does not support this plugin
 			return;
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 			var fieldsTable = document.getElementById("edit-fields");
@@ -31,7 +30,7 @@ class AdminerTableEditByFields
 			{
 				var myAjaxScript = document.createElement("SCRIPT");
 				myAjaxScript.innerHTML = ("var myAjax = "+ajax).replace("function ajax(", "function(").replace(/([\'\"]X-Requested-With[\'\"]\s*,\s*[\'\"])XMLHttpRequest([\'\"])/, "$1$2");
-				myAjaxScript.nonce = '<?=nonce()?>'.replace(/^[^"]+"/, "").replace(/"$/, "");
+				myAjaxScript.nonce = '<?=Adminer\nonce()?>'.replace(/^[^"]+"/, "").replace(/"$/, "");
 				document.getElementsByTagName("BODY")[0].appendChild(myAjaxScript);
 			}
 
@@ -39,7 +38,7 @@ class AdminerTableEditByFields
 			{
 				var myCommentClickScript = document.createElement("SCRIPT");
 				myCommentClickScript.innerHTML = ("var myEditingCommentsClick = "+editingCommentsClick).replace("function editingCommentsClick(", "function(").replace(", 6)", ", 7)");
-				myCommentClickScript.nonce = '<?=nonce()?>'.replace(/^[^"]+"/, "").replace(/"$/, "");
+				myCommentClickScript.nonce = '<?=Adminer\nonce()?>'.replace(/^[^"]+"/, "").replace(/"$/, "");
 				document.getElementsByTagName("BODY")[0].appendChild(myCommentClickScript);
 			}
 

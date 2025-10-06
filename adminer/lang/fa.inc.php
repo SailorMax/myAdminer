@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	// label for database system selection (MySQL, SQLite, ...)
 	'System' => 'سیستم',
 	'Server' => 'سرور',
@@ -21,10 +23,10 @@ $translations = array(
 	'Session expired, please login again.' => 'نشست پایان یافته، لطفا دوباره وارد شوید.',
 	'%s version: %s through PHP extension %s' => 'نسخه %s : %s توسعه پی اچ پی %s',
 	'Refresh' => 'بازیابی',
-	
+
 	// text direction - 'ltr' or 'rtl'
 	'ltr' => 'rtl',
-	
+
 	'Privileges' => 'امتیازات',
 	'Create user' => 'ایجاد کاربر',
 	'User has been dropped.' => 'کاربر حذف شد.',
@@ -35,14 +37,14 @@ $translations = array(
 	'Routine' => 'روتین',
 	'Grant' => 'اعطا',
 	'Revoke' => 'لغو کردن',
-	
+
 	'Process list' => 'لیست فرآیند',
 	'%d process(es) have been killed.' => '%d فرآیند متوقف شد.',
 	'Kill' => 'حذف فرآیند',
-	
+
 	'Variables' => 'متغیرها',
 	'Status' => 'وضعیت',
-	
+
 	'SQL command' => 'دستور SQL',
 	'%d query(s) executed OK.' => '%d کوئری اجرا شد.',
 	'Query executed OK, %d row(s) affected.' => 'کوئری اجرا شد. %d سطر تغیر کرد.',
@@ -56,7 +58,7 @@ $translations = array(
 	'History' => 'تاریخ',
 	'Clear' => 'پاک کردن',
 	'Edit all' => 'ویرایش همه',
-	
+
 	'File upload' => 'بارگذاری فایل',
 	'From server' => 'از سرور',
 	'Webserver file %s' => '%s فایل وب سرور',
@@ -75,9 +77,8 @@ $translations = array(
 	'save' => 'ذخیره',
 	'Format' => 'حذف',
 	'Data' => 'داده',
-	
+
 	'Database' => 'پایگاه داده',
-	'database' => 'پایگاه داده',
 	'Use' => 'استفاده',
 	'Select database' => 'انتخاب پایگاه داده',
 	'Invalid database.' => 'پایگاه داده نامعتبر.',
@@ -89,10 +90,10 @@ $translations = array(
 	'Alter database' => 'ویرایش پایگاه داده',
 	'Create database' => 'ایجاد پایگاه داده',
 	'Database schema' => 'ساختار پایگاه داده',
-	
+
 	// link to current database schema layout
 	'Permanent link' => 'ارتباط دائم',
-	
+
 	// thousands separator - must contain single byte
 	',' => ' ',
 	'0123456789' => '۰۱۲۳۴۵۶۷۸۹',
@@ -115,7 +116,7 @@ $translations = array(
 	'Tables have been moved.' => 'جدولها انتقال داده شدند.',
 	'Copy' => 'کپی کردن',
 	'Tables have been copied.' => 'جدولها کپی شدند.',
-	
+
 	'Routines' => 'روالها',
 	'Routine has been called, %d row(s) affected.' => array('روال فراخوانی شد %d سطر متاثر شد.', 'روال فراخوانی شد %d سطر متاثر شد.'),
 	'Call' => 'صدا زدن',
@@ -128,7 +129,7 @@ $translations = array(
 	'Alter function' => 'ویرایش تابع',
 	'Alter procedure' => 'ویرایش زیربرنامه',
 	'Return type' => 'برگرداندن نوع',
-	
+
 	'Events' => 'رویدادها',
 	'Event has been dropped.' => 'رویداد حذف شد.',
 	'Event has been altered.' => 'رویداد ویرایش شد.',
@@ -141,11 +142,11 @@ $translations = array(
 	'Start' => 'آغاز',
 	'End' => 'پایان',
 	'On completion preserve' => 'تکمیل حفاظت فعال است',
-	
+
 	'Tables' => 'جدولها',
 	'Tables and views' => 'جدولها و نمایه ها',
 	'Table' => 'جدول',
-	'No tables.' => 'جدولی وجود ندارد',
+	'No tables.' => 'جدولی وجود ندارد.',
 	'Alter table' => 'ویرایش جدول',
 	'Create table' => 'ایجاد جدول',
 	'Table has been dropped.' => 'جدول حذف شد.',
@@ -173,12 +174,12 @@ $translations = array(
 	'Move down' => 'انتقال به پایین',
 	'Remove' => 'حذف',
 	'Maximum number of allowed fields exceeded. Please increase %s.' => 'حداکثر تعداد فیلدهای مجاز اشباع شد. لطفا %s را افزایش دهید.',
-	
+
 	'Partition by' => 'بخشبندی توسط',
 	'Partitions' => 'بخشبندیها',
 	'Partition name' => 'نام بخش',
 	'Values' => 'مقادیر',
-	
+
 	'View' => 'نمایش',
 	'Materialized view' => 'نمایه مادی',
 	'View has been dropped.' => 'نمایش حذف شد.',
@@ -186,14 +187,14 @@ $translations = array(
 	'View has been created.' => 'نمایش ایجاد شد.',
 	'Alter view' => 'حذف نمایش',
 	'Create view' => 'ایجاد نمایش',
-	
+
 	'Indexes' => 'ایندکسها',
 	'Indexes have been altered.' => 'ایندکسها ویرایش شدند.',
 	'Alter indexes' => 'ویرایش ایندکسها',
 	'Add next' => 'افرودن بعدی',
 	'Index Type' => 'نوع ایندکس',
-	'Column (length)' => 'ستون (طول)',
-	
+	'length' => 'طول',
+
 	'Foreign keys' => 'کلیدهای خارجی',
 	'Foreign key' => 'کلید خارجی',
 	'Foreign key has been dropped.' => 'کلید خارجی حذف شد.',
@@ -209,7 +210,7 @@ $translations = array(
 	'ON DELETE' => 'ON DELETE',
 	'ON UPDATE' => 'ON UPDATE',
 	'Source and target columns must have the same data type, there must be an index on the target columns and referenced data must exist.' => 'داده مبدا و مقصد ستونها بایستی شبیه هم باشند.',
-	
+
 	'Triggers' => 'تریگرها',
 	'Add trigger' => 'افزودن تریگر',
 	'Trigger has been dropped.' => 'تریگر حذف شد.',
@@ -220,7 +221,7 @@ $translations = array(
 	'Time' => 'زمان',
 	'Event' => 'رویداد',
 	'Name' => 'نام',
-	
+
 	'select' => 'انتخاب',
 	'Select' => 'انتخاب',
 	'Select data' => 'انتخاب داده',
@@ -237,7 +238,7 @@ $translations = array(
 	'Action' => 'عملیات',
 	'Full table scan' => 'اسکن کامل جدول',
 	'Unable to select the table' => 'قادر به انتخاب جدول نیستید',
-	'No rows.' => 'سطری وجود ندارد',
+	'No rows.' => 'سطری وجود ندارد.',
 	'%d / ' => '%d / ',
 	'%d row(s)' => array('%d سطر', '%d سطر'),
 	'Page' => 'صفحه',
@@ -246,16 +247,16 @@ $translations = array(
 	'Loading' => 'در حال بارگزاری',
 	'Whole result' => 'همه نتایج',
 	'%d byte(s)' => array('%d بایت', '%d بایت'),
-	
+
 	'Import' => 'وارد کردن',
 	'%d row(s) have been imported.' => array('%d سطر وارد شد.', '%d سطر وارد شد.'),
 	'File must be in UTF-8 encoding.' => 'فرمت فایل باید UTF-8 باشید.',
-	
+
 	// in-place editing in select
 	'Modify' => 'ویرایش',
 	'Ctrl+click on a value to modify it.' => 'برای ویرایش بر روی مقدار ctrl+click کنید.',
 	'Use edit link to modify this value.' => 'از لینک ویرایش برای ویرایش این مقدار استفاده کنید.',
-	
+
 	// %s can contain auto-increment value
 	'Item%s has been inserted.' => '%s آیتم درج شد.',
 	'Item has been deleted.' => 'آیتم حذف شد.',
@@ -275,14 +276,7 @@ $translations = array(
 	'Clone' => 'تکثیر',
 	'Delete' => 'حذف',
 	'You have no privileges to update this table.' => 'شما اختیار ویرایش این جدول را ندارید.',
-	
-	'E-mail' => 'پست الکترونیک',
-	'From' => 'فرستنده',
-	'Subject' => 'موضوع',
-	'Attachments' => 'پیوست ها',
-	'Send' => 'ارسال',
-	'%d e-mail(s) have been sent.' => array('%d ایمیل ارسال شد.', '%d ایمیل ارسال شد.'),
-	
+
 	// data type descriptions
 	'Numbers' => 'اعداد',
 	'Date and time' => 'تاریخ و زمان',
@@ -292,7 +286,7 @@ $translations = array(
 	'Network' => 'شبکه',
 	'Geometry' => 'هندسه',
 	'Relations' => 'رابطه ها',
-	
+
 	'Editor' => 'ویرایشگر',
 	// date format in Editor: $1 yyyy, $2 yy, $3 mm, $4 m, $5 dd, $6 d
 	'$1-$3-$5' => '$1-$3-$5',
@@ -307,7 +301,7 @@ $translations = array(
 	// general SQLite error in create, drop or rename database
 	'File exists.' => 'فایل موجود است.',
 	'Please use one of the extensions %s.' => 'لطفا یکی از پسوندها را انتخاب نمائید %s.',
-	
+
 	// PostgreSQL and MS SQL schema support
 	'Alter schema' => 'ویرایش ساختار',
 	'Create schema' => 'ایجاد ساختار',
@@ -316,7 +310,7 @@ $translations = array(
 	'Schema has been altered.' => 'ساختار ویرایش شد.',
 	'Schema' => 'ساختار',
 	'Invalid schema.' => 'ساختار نامعتبر.',
-	
+
 	// PostgreSQL sequences support
 	'Sequences' => 'صف ها',
 	'Create sequence' => 'ایجاد صف',
@@ -324,7 +318,7 @@ $translations = array(
 	'Sequence has been created.' => 'صف ایجاد شد.',
 	'Sequence has been altered.' => 'صف ویرایش شد.',
 	'Alter sequence' => 'ویرایش صف',
-	
+
 	// PostgreSQL user types support
 	'User types' => 'انواع کاربر',
 	'Create type' => 'ایجاد نوع',
@@ -332,3 +326,5 @@ $translations = array(
 	'Type has been created.' => 'نوع ایجاد شد.',
 	'Alter type' => 'ویرایش نوع',
 );
+
+// run `php ../../lang.php fa` to update this file

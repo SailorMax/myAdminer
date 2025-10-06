@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	// label for database system selection (MySQL, SQLite, ...)
 	'System' => 'Sistem',
 	'Server' => 'Server',
@@ -14,7 +16,7 @@ $translations = array(
 	'Language' => 'Jezik',
 	'Invalid CSRF token. Send the form again.' => 'Nevažeći CSRF kod. Proslijedite ponovo formu.',
 	'No extension' => 'Bez dodataka',
-	'None of the supported PHP extensions (%s) are available.' => 'Nijedan od podržanih PHP dodataka nije dostupan.',
+	'None of the supported PHP extensions (%s) are available.' => 'Nijedan od podržanih PHP dodataka (%s) nije dostupan.',
 	'Session support must be enabled.' => 'Morate omogućiti podršku za sesije.',
 	'Session expired, please login again.' => 'Vaša sesija je istekla, prijavite se ponovo.',
 	'%s version: %s through PHP extension %s' => '%s verzija: %s pomoću PHP dodatka je %s',
@@ -73,7 +75,6 @@ $translations = array(
 	'Data' => 'Podaci',
 
 	'Database' => 'Baza podataka',
-	'database' => 'baza podataka',
 	'Use' => 'Koristi',
 	'Select database' => 'Izaberite bazu',
 	'Invalid database.' => 'Neispravna baza podataka.',
@@ -183,7 +184,7 @@ $translations = array(
 	'Alter indexes' => 'Ažuriraj indekse',
 	'Add next' => 'Dodaj slijedeći',
 	'Index Type' => 'Tip indeksa',
-	'Column (length)' => 'kolumna (dužina)',
+	'length' => 'dužina',
 
 	'Foreign keys' => 'Strani ključevi',
 	'Foreign key' => 'Strani ključ',
@@ -263,13 +264,6 @@ $translations = array(
 	'Delete' => 'Izbriši',
 	'Modify' => 'Izmjene',
 
-	'E-mail' => 'El. pošta',
-	'From' => 'Od',
-	'Subject' => 'Naslov',
-	'Attachments' => 'Prilozi',
-	'Send' => 'Pošalji',
-	'%d e-mail(s) have been sent.' => array('%d poruka el. pošte je poslata.', '%d poruke el. pošte su poslate.', '%d poruka el. pošte je poslato.'),
-
 	// data type descriptions
 	'Numbers' => 'Broj',
 	'Date and time' => 'Datum i vrijeme',
@@ -319,3 +313,5 @@ $translations = array(
 	'Type has been created.' => 'tip je spašen.',
 	'Alter type' => 'Ažuriraj tip',
 );
+
+// run `php ../../lang.php bs` to update this file

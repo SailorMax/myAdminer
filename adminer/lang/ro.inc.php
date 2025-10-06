@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	'Login' => 'Intră',
 	'Logout successful.' => 'Ați ieșit cu succes.',
 	'Invalid credentials.' => 'Numele de utilizator sau parola este greșită.',
@@ -31,7 +33,6 @@ $translations = array(
 	'Create database' => 'Crează baza de date',
 	'SQL command' => 'SQL query',
 	'Logout' => 'Ieșire',
-	'database' => 'baza de date',
 	'Use' => 'Alege',
 	'No tables.' => 'În baza de date nu sunt tabele.',
 	'select' => 'selectează',
@@ -96,7 +97,7 @@ $translations = array(
 	'ON DELETE' => 'La ștergere',
 	'ON UPDATE' => 'La modificare',
 	'Index Type' => 'Tipul indexului',
-	'Column (length)' => 'Coloană (lungimea)',
+	'length' => 'lungimea',
 	'View has been dropped.' => 'Reprezentarea a fost ștearsă.',
 	'View has been altered.' => 'Reprezentarea a fost modificată.',
 	'View has been created.' => 'Reprezentarea a fost creată.',
@@ -213,11 +214,6 @@ $translations = array(
 	'Binary' => 'Tip binar',
 	'Lists' => 'Liste',
 	'Editor' => 'Editor',
-	'E-mail' => 'Poșta electronică',
-	'From' => 'De la',
-	'Subject' => 'Pentru',
-	'Send' => 'Trimite',
-	'%d e-mail(s) have been sent.' => array('A fost trimis %d mail.', 'Au fost trimise %d mail-uri.'),
 	'Webserver file %s' => 'Fișierul %s pe server',
 	'File does not exist.' => 'Acest fișier nu există.',
 	'%d in total' => 'În total %d',
@@ -252,7 +248,6 @@ $translations = array(
 	'Network' => 'Rețea',
 	'Geometry' => 'Geometrie',
 	'File exists.' => 'Fișierul există deja.',
-	'Attachments' => 'Fișiere atașate',
 	'%d query(s) executed OK.' => array('%d query executat.', '%d query-uri executate cu succes.'),
 	'Show only errors' => 'Arată doar greșeli',
 	'Refresh' => 'Împrospătează',
@@ -260,9 +255,11 @@ $translations = array(
 	'Please use one of the extensions %s.' => 'Folosiți una din următoarele extensii %s.',
 	'now' => 'acum',
 	'ltr' => 'ltr',
-	'Tables have been copied.' => 'Tabelele au fost copiate',
+	'Tables have been copied.' => 'Tabelele au fost copiate.',
 	'Copy' => 'Copiază',
 	'Permanent link' => 'Adresă permanentă',
 	'Edit all' => 'Editează tot',
 	'HH:MM:SS' => 'HH:MM:SS',
 );
+
+// run `php ../../lang.php ro` to update this file

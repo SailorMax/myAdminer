@@ -1,7 +1,9 @@
 <?php
+namespace Adminer;
+
 $row = $_POST;
 
-if ($_POST && !$error && !isset($_POST["add_x"])) { // add is an image and PHP changes add.x to add_x
+if ($_POST && !$error && !$_POST["add"]) {
 	$name = trim($row["name"]);
 	if ($_POST["drop"]) {
 		$_GET["db"] = ""; // to save in global history
@@ -38,9 +40,9 @@ if ($_POST && !$error && !isset($_POST["add_x"])) { // add is an image and PHP c
 
 page_header(DB != "" ? lang('Alter database') : lang('Create database'), $error, array(), DB != "" ? h(DB) : "");
 if (DB)
-	$adminer->homepage();
+	adminer()->homepage();
 else
-	$adminer->startLinks();
+	adminer()->startLinks();
 
 $collations = collations();
 $name = DB;
@@ -48,7 +50,7 @@ if ($_POST) {
 	$name = $row["name"];
 } elseif (DB != "") {
 	$row["collation"] = db_collation(DB, $collations);
-} elseif ($jush == "sql") {
+} elseif (JUSH == "sql") {
 	// propose database name with limited privileges
 	foreach (get_vals("SHOW GRANTS") as $grant) {
 		if (preg_match('~ ON (`(([^\\\\`]|``|\\\\.)*)%`\.\*)?~', $grant, $match) && $match[1]) {
@@ -62,23 +64,22 @@ if ($_POST) {
 <form action="" method="post">
 <p>
 <?php
-echo ($_POST["add_x"] || strpos($name, "\n")
-	? '<textarea id="name" name="name" rows="10" cols="40">' . h($name) . '</textarea><br>'
-	: '<input name="name" id="name" value="' . h($name) . '" data-maxlength="64" autocapitalize="off">'
+echo ($_POST["add"] || strpos($name, "\n")
+	? '<textarea autofocus name="name" rows="10" cols="40">' . h($name) . '</textarea><br>'
+	: '<input name="name" autofocus value="' . h($name) . '" data-maxlength="64" autocapitalize="off">'
 ) . "\n" . ($collations ? html_select("collation", array("" => "(" . lang('collation') . ")") + $collations, $row["collation"]) . doc_link(array(
 	'sql' => "charset-charsets.html",
 	'mariadb' => "supported-character-sets-and-collations/",
-	'mssql' => "ms187963.aspx",
+	'mssql' => "relational-databases/system-functions/sys-fn-helpcollations-transact-sql",
 )) : "");
-echo script("focus(qs('#name'));");
 ?>
 <input type="submit" value="<?php echo lang('Save'); ?>">
 <?php
 if (DB != "") {
 	echo "<input type='submit' name='drop' value='" . lang('Drop') . "'>" . confirm(lang('Drop %s?', DB)) . "\n";
-} elseif (!$_POST["add_x"] && $_GET["db"] == "") {
-	echo "<input type='image' class='icon' name='add' src='../adminer/static/plus.gif' alt='+' title='" . lang('Add next') . "'>\n";
+} elseif (!$_POST["add"] && $_GET["db"] == "") {
+	echo icon("plus", "add[0]", "+", lang('Add next')) . "\n";
 }
+echo input_token();
 ?>
-<input type="hidden" name="token" value="<?php echo $token; ?>">
 </form>

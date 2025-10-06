@@ -22,6 +22,10 @@
  *             SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+html {
+	--bg: #eee;
+}
+
 /* IE doesn't support inline images - So, we use a hack that IE cannot interpret */
 html/*\*/>/*/*/body .error {background:#FFEEEE url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIsSURBVDjLpVNLSJQBEP7+h6uu62vLVAJDW1KQTMrINQ1vPQzq1GOpa9EppGOHLh0kCEKL7JBEhVCHihAsESyJiE4FWShGRmauu7KYiv6Pma+DGoFrBQ7MzGFmPr5vmDFIYj1mr1WYfrHPovA9VVOqbC7e/1rS9ZlrAVDYHig5WB0oPtBI0TNrUiC5yhP9jeF4X8NPcWfopoY48XT39PjjXeF0vWkZqOjd7LJYrmGasHPCCJbHwhS9/F8M4s8baid764Xi0Ilfp5voorpJfn2wwx/r3l77TwZUvR+qajXVn8PnvocYfXYH6k2ioOaCpaIdf11ivDcayyiMVudsOYqFb60gARJYHG9DbqQFmSVNjaO3K2NpAeK90ZCqtgcrjkP9aUCXp0moetDFEeRXnYCKXhm+uTW0CkBFu4JlxzZkFlbASz4CQGQVBFeEwZm8geyiMuRVntzsL3oXV+YMkvjRsydC1U+lhwZsWXgHb+oWVAEzIwvzyVlk5igsi7DymmHlHsFQR50rjl+981Jy1Fw6Gu0ObTtnU+cgs28AKgDiy+Awpj5OACBAhZ/qh2HOo6i+NeA73jUAML4/qWux8mt6NjW1w599CS9xb0mSEqQBEDAtwqALUmBaG5FV3oYPnTHMjAwetlWksyByaukxQg2wQ9FlccaK/OXA3/uAEUDp3rNIDQ1ctSk6kHh1/jRFoaL4M4snEMeD73gQx4M4PsT1IZ5AfYH68tZY7zv/ApRMY9mnuVMvAAAAAElFTkSuQmCC") no-repeat scroll 0.8em center; padding-left:38px;}
 html/*\*/>/*/*/body .message, #menu p.message {background:#EEFFEE url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKfSURBVDjLpZPrS1NhHMf9O3bOdmwDCWREIYKEUHsVJBI7mg3FvCxL09290jZj2EyLMnJexkgpLbPUanNOberU5taUMnHZUULMvelCtWF0sW/n7MVMEiN64AsPD8/n83uucQDi/id/DBT4Dolypw/qsz0pTMbj/WHpiDgsdSUyUmeiPt2+V7SrIM+bSss8ySGdR4abQQv6lrui6VxsRonrGCS9VEjSQ9E7CtiqdOZ4UuTqnBHO1X7YXl6Daa4yGq7vWO1D40wVDtj4kWQbn94myPGkCDPdSesczE2sCZShwl8CzcwZ6NiUs6n2nYX99T1cnKqA2EKui6+TwphA5k4yqMayopU5mANV3lNQTBdCMVUA9VQh3GuDMHiVcLCS3J4jSLhCGmKCjBEx0xlshjXYhApfMZRP5CyYD+UkG08+xt+4wLVQZA1tzxthm2tEfD3JxARH7QkbD1ZuozaggdZbxK5kAIsf5qGaKMTY2lAU/rH5HW3PLsEwUYy+YCcERmIjJpDcpzb6l7th9KtQ69fi09ePUej9l7cx2DJbD7UrG3r3afQHOyCo+V3QQzE35pvQvnAZukk5zL5qRL59jsKbPzdheXoBZc4saFhBS6AO7V4zqCpiawuptwQG+UAa7Ct3UT0hh9p9EnXT5Vh6t4C22QaUDh6HwnECOmcO7K+6kW49DKqS2DrEZCtfuI+9GrNHg4fMHVSO5kE7nAPVkAxKBxcOzsajpS4Yh4ohUPPWKTUh3PaQEptIOr6BiJjcZXCwktaAGfrRIpwblqOV3YKdhfXOIvBLeREWpnd8ynsaSJoyESFphwTtfjN6X1jRO2+FxWtCWksqBApeiFIR9K6fiTpPiigDoadqCEag5YUFKl6Yrciw0VOlhOivv/Ff8wtn0KzlebrUYwAAAABJRU5ErkJggg==") no-repeat scroll 0.8em center; padding-left:38px;}
@@ -58,18 +62,20 @@ table{-moz-border-bottom-colors:none;-moz-border-left-colors:none;-moz-border-ri
 td,th{-moz-border-bottom-colors:none;-moz-border-left-colors:none;-moz-border-right-colors:none;-moz-border-top-colors:none;border-color:-moz-use-text-color #999 #999 -moz-use-text-color;border-image:none;border-style:none solid solid none;border-width:0 1px 1px 0;padding:.2em .3em}
 thead td,thead th{background:#eee;background:-moz-linear-gradient(top,#eee 0,#ccc 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#eee),color-stop(100%,#ccc));background:-webkit-linear-gradient(top,#eee 0,#ccc 100%);background:-o-linear-gradient(top,#eee 0,#ccc 100%);background:-ms-linear-gradient(top,#eee 0,#ccc 100%);background:linear-gradient(to bottom,#eee 0,#ccc 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee',endColorstr='#cccccc',GradientType=0)}
 td{background-color:#f4f8ff}
-.odd td{background-color:#fff}
+.odds tbody tr:nth-child(2n){background-color:#fff}
 tbody tr:hover td,tbody tr:hover th{background-color:#FFE}
 p.tabs{margin:0 20px 0 0}
 .jush-sql{background:0}
 fieldset{border:1px solid #999;border-radius:5px;display:inline;margin:.8em .5em 0 0;padding:.5em .8em;vertical-align:top}
 a{color:#369}
 a:hover{color:#28c}
+.logout{background:transparent;box-shadow:none}
 #logout,#logins a,#logins a:link,#breadcrumb a,#breadcrumb a:link,.logout a,.logout a:link,.tabs a,.tabs a:link{display:inline-block;border:1px solid #667eac;border-radius:4px;padding:3px 8px;margin:2px 0;vertical-align:middle;text-decoration:none;color:#fff;background:#7abcff;background:-moz-linear-gradient(top,#7abcff 0,#60abf8 44%,#4096ee 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#7abcff),color-stop(44%,#60abf8),color-stop(100%,#4096ee));background:-webkit-linear-gradient(top,#7abcff 0,#60abf8 44%,#4096ee 100%);background:-o-linear-gradient(top,#7abcff 0,#60abf8 44%,#4096ee 100%);background:-ms-linear-gradient(top,#7abcff 0,#60abf8 44%,#4096ee 100%);background:linear-gradient(to bottom,#7abcff 0,#60abf8 44%,#4096ee 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7abcff',endColorstr='#4096ee',GradientType=0)}
 .logout a,.logout a:link,#logout{padding:3px 4px}
 #logout:hover,#logins a:hover,#tables a:hover,#breadcrumb a:hover,.logout a:hover,.tabs a:hover{color:#fff;text-decoration:none;background:#93c9ff;background:-moz-linear-gradient(top,#93c9ff 0,#79b8f7 44%,#57a2ed 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#93c9ff),color-stop(44%,#79b8f7),color-stop(100%,#57a2ed));background:-webkit-linear-gradient(top,#93c9ff 0,#79b8f7 44%,#57a2ed 100%);background:-o-linear-gradient(top,#93c9ff 0,#79b8f7 44%,#57a2ed 100%);background:-ms-linear-gradient(top,#93c9ff 0,#79b8f7 44%,#57a2ed 100%);background:linear-gradient(to bottom,#93c9ff 0,#79b8f7 44%,#57a2ed 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#93c9ff',endColorstr='#57a2ed',GradientType=0)}
 #breadcrumb a,#breadcrumb a:link{border:1px solid #246;padding:2px 6px;margin:1px auto;line-height:1.6em}
 #logins a,#tables a{background:none repeat scroll 0 0 #fff;padding:2px 6px;margin:1px 0;font-size:.8em}
+#lang{top:-4.5em;}
 a[title='Show structure'],#tables a[title='Show structure']{border:0;background:0;color:#369}
 .jush a{border:0;background:0;margin:0;padding:0}
 a.active,a.active:link,a.active:hover{text-decoration:underline}

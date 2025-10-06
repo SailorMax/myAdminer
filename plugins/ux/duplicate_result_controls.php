@@ -27,7 +27,7 @@ class AdminerDuplicateResultControls
 		if (!$this->TYPES_LIST)
 			return;
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 <?php

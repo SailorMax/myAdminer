@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	// label for database system selection (MySQL, SQLite, ...)
 	'System' => 'Система Бази Даних',
 	'Server' => 'Сервер',
@@ -19,10 +21,10 @@ $translations = array(
 	'Session expired, please login again.' => 'Сесія закінчилась, будь ласка, увійдіть в систему знову.',
 	'%s version: %s through PHP extension %s' => 'Версія %s: %s з PHP-розширенням %s',
 	'Refresh' => 'Оновити',
-	
+
 	// text direction - 'ltr' or 'rtl'
 	'ltr' => 'ltr',
-	
+
 	'Privileges' => 'Привілеї',
 	'Create user' => 'Створити користувача',
 	'User has been dropped.' => 'Користувача було видалено.',
@@ -33,14 +35,14 @@ $translations = array(
 	'Routine' => 'Процедура',
 	'Grant' => 'Дозволити',
 	'Revoke' => 'Заборонити',
-	
+
 	'Process list' => 'Перелік процесів',
 	'%d process(es) have been killed.' => array('Було завершено %d процес.', 'Було завершено %d процеси.', 'Було завершёно %d процесів.'),
 	'Kill' => 'Завершити процес',
-	
+
 	'Variables' => 'Змінні',
 	'Status' => 'Статус',
-	
+
 	'SQL command' => 'SQL запит',
 	'%d query(s) executed OK.' => array('%d запит виконано успішно.', '%d запити виконано успішно.', '%d запитів виконано успішно.'),
 	'Query executed OK, %d row(s) affected.' => array('Запит виконано успішно, змінено %d рядок.', 'Запит виконано успішно, змінено %d рядки.', 'Запит виконано успішно, змінено %d рядків.'),
@@ -54,7 +56,7 @@ $translations = array(
 	'History' => 'Історія',
 	'Clear' => 'Очистити',
 	'Edit all' => 'Редагувати все',
-	
+
 	'File upload' => 'Завантажити файл',
 	'From server' => 'З сервера',
 	'Webserver file %s' => 'Файл %s на вебсервері',
@@ -64,16 +66,15 @@ $translations = array(
 	'Unable to upload a file.' => 'Неможливо завантажити файл.',
 	'Maximum allowed file size is %sB.' => 'Максимально допустимий розмір файлу %sБ.',
 	'Too big POST data. Reduce the data or increase the %s configuration directive.' => 'Занадто великий об\'єм POST-даних. Зменшіть об\'єм або збільшіть параметр директиви %s конфигурації.',
-	
+
 	'Export' => 'Експорт',
 	'Output' => 'Вихідні дані',
 	'open' => 'відкрити',
 	'save' => 'зберегти',
 	'Format' => 'Формат',
 	'Data' => 'Дані',
-	
+
 	'Database' => 'База даних',
-	'database' => 'база даних',
 	'Use' => 'Обрати',
 	'Select database' => 'Обрати базу даних',
 	'Invalid database.' => 'Погана база даних.',
@@ -85,10 +86,10 @@ $translations = array(
 	'Alter database' => 'Змінити базу даних',
 	'Create database' => 'Створити базу даних',
 	'Database schema' => 'Схема бази даних',
-	
+
 	// link to current database schema layout
 	'Permanent link' => 'Постійне посилання',
-	
+
 	// thousands separator - must contain single byte
 	',' => ' ',
 	'0123456789' => '0123456789',
@@ -110,7 +111,7 @@ $translations = array(
 	'Tables have been moved.' => 'Таблиці було перенесено.',
 	'Copy' => 'копіювати',
 	'Tables have been copied.' => 'Таблиці було зкопійовано.',
-	
+
 	'Routines' => 'Збережені процедури',
 	'Routine has been called, %d row(s) affected.' => array('Була викликана процедура, %d запис було змінено.', 'Була викликана процедура, %d записи було змінено.', 'Була викликана процедура, %d записів було змінено.'),
 	'Call' => 'Викликати',
@@ -123,7 +124,7 @@ $translations = array(
 	'Alter function' => 'Змінити функцію',
 	'Alter procedure' => 'Змінити процедуру',
 	'Return type' => 'Тип, що повернеться',
-	
+
 	'Events' => 'Події',
 	'Event has been dropped.' => 'Подію було видалено.',
 	'Event has been altered.' => 'Подію було змінено.',
@@ -136,7 +137,7 @@ $translations = array(
 	'Start' => 'Початок',
 	'End' => 'Кінець',
 	'On completion preserve' => 'Після завершення зберегти',
-	
+
 	'Tables' => 'Таблиці',
 	'Tables and views' => 'Таблиці і вигляди',
 	'Table' => 'Таблиця',
@@ -165,26 +166,26 @@ $translations = array(
 	'Move down' => 'Пересунути вниз',
 	'Remove' => 'Видалити',
 	'Maximum number of allowed fields exceeded. Please increase %s.' => 'Досягнута максимальна кількість доступних полів. Будь ласка, збільшіть %s.',
-	
+
 	'Partition by' => 'Розділити по',
 	'Partitions' => 'Розділи',
 	'Partition name' => 'Назва розділу',
 	'Values' => 'Значення',
-	
+
 	'View' => 'Вигляд',
 	'View has been dropped.' => 'Вигляд було видалено.',
 	'View has been altered.' => 'Вигляд було змінено.',
 	'View has been created.' => 'Вигляд було створено.',
 	'Alter view' => 'Змінити вигляд',
 	'Create view' => 'Створити вигляд',
-	
+
 	'Indexes' => 'Індекси',
 	'Indexes have been altered.' => 'Індексування було змінено.',
 	'Alter indexes' => 'Змінити індексування',
 	'Add next' => 'Додати ще',
 	'Index Type' => 'Тип індексу',
-	'Column (length)' => 'Стовпець (довжина)',
-	
+	'length' => 'довжина',
+
 	'Foreign keys' => 'Зовнішні ключі',
 	'Foreign key' => 'Зовнішній ключ',
 	'Foreign key has been dropped.' => 'Зовнішній ключ було видалено.',
@@ -200,7 +201,7 @@ $translations = array(
 	'ON DELETE' => 'ПРИ ВИДАЛЕННІ',
 	'ON UPDATE' => 'ПРИ ЗМІНІ',
 	'Source and target columns must have the same data type, there must be an index on the target columns and referenced data must exist.' => 'Стовпці повинні мати той самий тип даних, цільові стовпці повинні бути проіндексовані і дані, на які посилаються повинні існувати.',
-	
+
 	'Triggers' => 'Тригери',
 	'Add trigger' => 'Додати тригер',
 	'Trigger has been dropped.' => 'Тригер було видалено.',
@@ -211,7 +212,7 @@ $translations = array(
 	'Time' => 'Час',
 	'Event' => 'Подія',
 	'Name' => 'Назва',
-	
+
 	'select' => 'вибрати',
 	'Select' => 'Вибрати',
 	'Select data' => 'Вибрати дані',
@@ -232,14 +233,14 @@ $translations = array(
 	'last' => 'остання',
 	'Whole result' => 'Весь результат',
 	'%d byte(s)' => array('%d байт', '%d байта', '%d байтів'),
-	
+
 	'Import' => 'Імпортувати',
 	'%d row(s) have been imported.' => array('%d рядок було імпортовано.', '%d рядки було імпортовано.', '%d рядків було імпортовано.'),
-	
+
 	// in-place editing in select
 	'Ctrl+click on a value to modify it.' => 'Ctrl+клікніть на значенні щоб змінити його.',
 	'Use edit link to modify this value.' => 'Використовуйте посилання щоб змінити це значення.',
-	
+
 	// %s can contain auto-increment value
 	'Item%s has been inserted.' => 'Запис%s було вставлено.',
 	'Item has been deleted.' => 'Запис було видалено.',
@@ -257,14 +258,7 @@ $translations = array(
 	'Save and insert next' => 'Зберегти і вставити знову',
 	'Clone' => 'Клонувати',
 	'Delete' => 'Видалити',
-	
-	'E-mail' => 'E-mail',
-	'From' => 'Від',
-	'Subject' => 'Заголовок',
-	'Attachments' => 'Додатки',
-	'Send' => 'Надіслати',
-	'%d e-mail(s) have been sent.' => array('Було надіслано %d повідомлення.', 'Було надіслано %d повідомлення.', 'Було надіслано %d повідомлень.'),
-	
+
 	// data type descriptions
 	'Numbers' => 'Числа',
 	'Date and time' => 'Дата і час',
@@ -274,7 +268,7 @@ $translations = array(
 	'Network' => 'Мережа',
 	'Geometry' => 'Геометрія',
 	'Relations' => 'Зв\'язки',
-	
+
 	'Editor' => 'Редактор',
 	// date format in Editor: $1 yyyy, $2 yy, $3 mm, $4 m, $5 dd, $6 d
 	'$1-$3-$5' => '$5.$3.$1',
@@ -285,11 +279,11 @@ $translations = array(
 	'now' => 'зараз',
 	'yes' => 'так',
 	'no' => 'ні',
-	
+
 	// general SQLite error in create, drop or rename database
 	'File exists.' => 'Файл існує.',
 	'Please use one of the extensions %s.' => 'Будь ласка, використовуйте одне з розширень %s.',
-	
+
 	// PostgreSQL and MS SQL schema support
 	'Alter schema' => 'Змінити схему',
 	'Create schema' => 'Створити схему',
@@ -298,7 +292,7 @@ $translations = array(
 	'Schema has been altered.' => 'Схему було змінено.',
 	'Schema' => 'Схема',
 	'Invalid schema.' => 'Невірна схема.',
-	
+
 	// PostgreSQL sequences support
 	'Sequences' => 'Послідовності',
 	'Create sequence' => 'Створити послідовність',
@@ -306,7 +300,7 @@ $translations = array(
 	'Sequence has been created.' => 'Послідовність було створено.',
 	'Sequence has been altered.' => 'Послідовність було змінено.',
 	'Alter sequence' => 'Змінити послідовність',
-	
+
 	// PostgreSQL user types support
 	'User types' => 'Типи користувачів',
 	'Create type' => 'Створити тип',
@@ -343,4 +337,18 @@ $translations = array(
 	'Saving' => 'Збереження',
 	'Unknown error.' => 'Невідома помилка.',
 	'Database does not support password.' => 'База даних не підтримує пароль.',
+	'Disable %s or enable %s or %s extensions.' => 'Вимкніть %s або увімкніть розширення %s або %s.',
+	'Check has been dropped.' => 'Перевірку видалено.',
+	'Check has been altered.' => 'Перевірка змінена.',
+	'Check has been created.' => 'Перевірку створено.',
+	'Alter check' => 'Змінити перевірку',
+	'Create check' => 'Створити перевірку',
+	'Vacuum' => 'Вакуум',
+	'%d / ' => '%d / ',
+	'Checks' => 'Перевірки',
+	'Loaded plugins' => 'Завантажені плагіни',
+	'%s must <a%s>return an array</a>.' => '%s має <a%s>повернути масив</a>.',
+	'<a%s>Configure</a> %s in %s.' => '<a%s>Налаштувати</a> %s у %s.',
 );
+
+// run `php ../../lang.php uk` to update this file

@@ -11,7 +11,7 @@ class AdminerCopyLinks
 	function head()
 	{
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 			if ((typeof opera == "object") && opera.version)	// Opera classic did not support manual copy events

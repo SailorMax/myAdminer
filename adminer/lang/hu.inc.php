@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	'Login' => 'Belépés',
 	'Logout successful.' => 'Sikeres kilépés.',
 	'Invalid credentials.' => 'Érvénytelen adatok.',
@@ -31,7 +33,6 @@ $translations = array(
 	'Create database' => 'Adatbázis létrehozása',
 	'SQL command' => 'SQL parancs',
 	'Logout' => 'Kilépés',
-	'database' => 'adatbázis',
 	'Use' => 'Használ',
 	'No tables.' => 'Nincs tábla.',
 	'select' => 'kiválasztás',
@@ -96,7 +97,7 @@ $translations = array(
 	'ON DELETE' => 'törléskor',
 	'ON UPDATE' => 'frissítéskor',
 	'Index Type' => 'Index típusa',
-	'Column (length)' => 'Oszop (méret)',
+	'length' => 'méret',
 	'View has been dropped.' => 'A nézet eldobva.',
 	'View has been altered.' => 'A nézet módosult.',
 	'View has been created.' => 'A nézet létrejött.',
@@ -205,11 +206,6 @@ $translations = array(
 	'History' => 'Történet',
 	'Variables' => 'Változók',
 	'Source and target columns must have the same data type, there must be an index on the target columns and referenced data must exist.' => 'A forrás és cél oszlopoknak azonos típusúak legyenek, a cél oszlopok indexeltek legyenek, és a hivatkozott adatnak léteznie kell.',
-	'E-mail' => 'E-mail',
-	'From' => 'Feladó',
-	'Subject' => 'Tárgy',
-	'Send' => 'Küldés',
-	'%d e-mail(s) have been sent.' => array('%d e-mail elküldve.', '%d e-mail elküldve.', '%d e-mail elküldve.'),
 	'Run file' => 'Fájl futtatása',
 	'Numbers' => 'Szám',
 	'Date and time' => 'Dátum és idő',
@@ -224,7 +220,6 @@ $translations = array(
 	'File does not exist.' => 'A fájl nem létezik.',
 	'Permanent login' => 'Emlékezz rám',
 	'%d in total' => 'összesen %d',
-	'Attachments' => 'Csatolmány',
 	'System' => 'Adatbázis',
 	'last' => 'utolsó',
 	'Network' => 'Hálózat',
@@ -265,3 +260,5 @@ $translations = array(
 	'Edit all' => 'Összes szerkesztése',
 	'HH:MM:SS' => 'óó:pp:mm',
 );
+
+// run `php ../../lang.php hu` to update this file

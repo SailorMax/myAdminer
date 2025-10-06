@@ -504,7 +504,7 @@ if (isset($_GET["mongo"])) {
 		function truncate_tables($tables) {
 			global $connection, $driver;
 			foreach ($tables as $table) {
-				$driver->delete($table, "");
+				driver()->delete($table, "");
 			}
 			return true;
 		}
@@ -533,7 +533,7 @@ if (isset($_GET["mongo"])) {
 			global $driver;
 			$fields = fields_from_edit();
 			if (!$fields) {
-				$result = $driver->select($table, array("*"), null, null, array(), 10);
+				$result = driver()->select($table, array("*"), null, null, array(), 10);
 				if ($result) {
 					while ($row = $result->fetch_assoc()) {
 						foreach ($row as $key => $val) {
@@ -541,8 +541,8 @@ if (isset($_GET["mongo"])) {
 							$fields[$key] = array(
 								"field" => $key,
 								"type" => "string",
-								"null" => ($key != $driver->primary),
-								"auto_increment" => ($key == $driver->primary),
+								"null" => ($key != driver()->primary),
+								"auto_increment" => ($key == driver()->primary),
 								"privileges" => array(
 									"insert" => 1,
 									"select" => 1,

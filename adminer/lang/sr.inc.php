@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	// label for database system selection (MySQL, SQLite, ...)
 	'System' => 'Систем',
 	'Server' => 'Сервер',
@@ -14,7 +16,7 @@ $translations = array(
 	'Language' => 'Језик',
 	'Invalid CSRF token. Send the form again.' => 'Неважећи CSRF код. Проследите поново форму.',
 	'No extension' => 'Без додатака',
-	'None of the supported PHP extensions (%s) are available.' => 'Ниједан од подржаних PHP додатака није доступан.',
+	'None of the supported PHP extensions (%s) are available.' => 'Ниједан од подржаних PHP додатака (%s) није доступан.',
 	'Session support must be enabled.' => 'Морате омогућити подршку за сесије.',
 	'Session expired, please login again.' => 'Ваша сесија је истекла, пријавите се поново.',
 	'%s version: %s through PHP extension %s' => '%s верзија: %s помоћу PHP додатка је %s',
@@ -73,7 +75,6 @@ $translations = array(
 	'Data' => 'Податци',
 
 	'Database' => 'База података',
-	'database' => 'база података',
 	'Use' => 'Користи',
 	'Select database' => 'Изаберите базу',
 	'Invalid database.' => 'Неисправна база података.',
@@ -183,7 +184,7 @@ $translations = array(
 	'Alter indexes' => 'Уреди индексе',
 	'Add next' => 'Додај следећи',
 	'Index Type' => 'Тип индекса',
-	'Column (length)' => 'Колона (дужина)',
+	'length' => 'дужина',
 
 	'Foreign keys' => 'Страни кључеви',
 	'Foreign key' => 'Страни кључ',
@@ -261,13 +262,6 @@ $translations = array(
 	'Clone' => 'Дуплирај',
 	'Delete' => 'Избриши',
 
-	'E-mail' => 'Ел. пошта',
-	'From' => 'Од',
-	'Subject' => 'Наслов',
-	'Attachments' => 'Прилози',
-	'Send' => 'Пошаљи',
-	'%d e-mail(s) have been sent.' => array('%d порука ел. поште је послата.', '%d поруке ел. поште су послате.', '%d порука ел. поште је послато.'),
-
 	// data type descriptions
 	'Numbers' => 'Број',
 	'Date and time' => 'Датум и време',
@@ -317,3 +311,5 @@ $translations = array(
 	'Type has been created.' => 'тип је креиран.',
 	'Alter type' => 'Уреди тип',
 );
+
+// run `php ../../lang.php sr` to update this file

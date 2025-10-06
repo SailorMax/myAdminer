@@ -10,11 +10,10 @@ class AdminerSqlCommandTableFields
 {
 	function head()
 	{
-		global $adminer;
-		if ($adminer->database() === null)
+		if (Adminer\adminer()->database() === null)
 			return;
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 			// add table fields to query textarea
@@ -168,7 +167,7 @@ class AdminerSqlCommandTableFields
 					{
 						var myAjaxScript = document.createElement("SCRIPT");
 						myAjaxScript.innerHTML = ("var myAjax = "+ajax).replace("function ajax(", "function(").replace(/([\'\"]X-Requested-With[\'\"]\s*,\s*[\'\"])XMLHttpRequest([\'\"])/, "$1$2");
-						myAjaxScript.nonce = '<?=nonce()?>'.replace(/^[^"]+"/, "").replace(/"$/, "");
+						myAjaxScript.nonce = '<?=Adminer\nonce()?>'.replace(/^[^"]+"/, "").replace(/"$/, "");
 						document.getElementsByTagName("BODY")[0].appendChild(myAjaxScript);
 					}
 

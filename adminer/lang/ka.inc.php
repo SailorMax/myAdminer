@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	'Login' => 'შესვლა',
 	'Logout successful.' => 'გამოხვედით სისტემიდან.',
 	'Invalid credentials.' => 'არასწორი მომხმარებელი ან პაროლი.',
@@ -31,7 +33,6 @@ $translations = array(
 	'Create database' => 'ბაზის შექმნა',
 	'SQL command' => 'SQL-ბრძანება',
 	'Logout' => 'გასვლა',
-	'database' => 'ბაზა',
 	'Use' => 'არჩევა',
 	'No tables.' => 'ბაზაში ცხრილი არაა.',
 	'select' => 'არჩევა',
@@ -94,7 +95,7 @@ $translations = array(
 	'ON DELETE' => 'წაშლისას',
 	'ON UPDATE' => 'განახლებისას',
 	'Index Type' => 'ინდექსის სახეობა',
-	'Column (length)' => 'ველი (სიგრძე)',
+	'length' => 'სიგრძე',
 	'View has been dropped.' => 'წარმოდგენა წაიშალა.',
 	'View has been altered.' => 'წარმოდგენა შეიცვალა.',
 	'View has been created.' => 'წარმოდგენა შეიქმნა.',
@@ -209,11 +210,6 @@ $translations = array(
 	'Binary' => 'ორობითი',
 	'Lists' => 'სია',
 	'Editor' => 'რედაქტორი',
-	'E-mail' => 'ელ. ფოსტა',
-	'From' => 'ავტორი:',
-	'Subject' => 'თემა',
-	'Send' => 'გაგზავნა',
-	'%d e-mail(s) have been sent.' => 'გაიგზავნა %d წერილი.',
 	'Webserver file %s' => 'ფაილი %s ვებსერვერზე',
 	'File does not exist.' => 'ასეთი ფაილი არ არსებობს.',
 	'%d in total' => 'სულ %d',
@@ -248,7 +244,6 @@ $translations = array(
 	'Network' => 'ქსელი',
 	'Geometry' => 'გეომეტრია',
 	'File exists.' => 'ფაილი უკვე არსებობს.',
-	'Attachments' => 'მიმაგრებული ფაილები',
 	'%d query(s) executed OK.' => '%d მოთხოვნა შესრულდა.',
 	'Show only errors' => 'მხოლოდ შეცდომები',
 	'Refresh' => 'განახლება',
@@ -301,3 +296,5 @@ $translations = array(
 	'Database does not support password.' => 'ბაზაში არაა მხარდაჭერილი პაროლი.',
 	'Disable %s or enable %s or %s extensions.' => 'გათიშეთ %s ან ჩართეთ %s ან %s გაფართოება.',
 );
+
+// run `php ../../lang.php ka` to update this file

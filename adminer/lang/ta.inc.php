@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	'Login' => 'நுழை',
 	'Logout successful.' => 'வெற்றிக‌ர‌மாய் வெளியேறியாயிற்று.',
 	'Invalid credentials.' => 'ச‌ரியான‌ விப‌ர‌ங்க‌ள் இல்லை.',
@@ -31,7 +33,6 @@ $translations = array(
 	'Create database' => 'த‌க‌வ‌ல்த‌ள‌த்தை உருவாக்கு',
 	'SQL command' => 'SQL க‌ட்ட‌ளை',
 	'Logout' => 'வெளியேறு',
-	'database' => 'த‌க‌வ‌ல்த‌ள‌ம்',
 	'Use' => 'உப‌யோகி',
 	'No tables.' => 'அட்ட‌வ‌ணை இல்லை.',
 	'select' => 'தேர்வு செய்',
@@ -94,7 +95,7 @@ $translations = array(
 	'ON DELETE' => 'ON DELETE',
 	'ON UPDATE' => 'ON UPDATE',
 	'Index Type' => 'அக‌வ‌ரிசை வ‌கை (Index Type)',
-	'Column (length)' => 'நெடுவ‌ரிசை (நீள‌ம்)',
+	'length' => 'நீள‌ம்',
 	'View has been dropped.' => 'தோற்ற‌ம் நீக்க‌ப்ப‌ட்ட‌து.',
 	'View has been altered.' => 'தோற்றம் மாற்றப்ப‌ட்ட‌து.',
 	'View has been created.' => 'தோற்ற‌ம் உருவாக்க‌ப்ப‌ட்ட‌து.',
@@ -211,11 +212,6 @@ $translations = array(
 	'Binary' => 'பைன‌ரி',
 	'Lists' => 'ப‌ட்டிய‌ல்',
 	'Editor' => 'தொகுப்பாளர்',
-	'E-mail' => 'மின்ன‌ஞ்ச‌ல்',
-	'From' => 'அனுப்புனர்',
-	'Subject' => 'பொருள்',
-	'Send' => 'அனுப்பு',
-	'%d e-mail(s) have been sent.' => array('%d மின்ன‌ஞ்ச‌ல் அனுப்ப‌ப‌ட்ட‌து.', '%d மின்ன‌ஞ்ச‌ல்க‌ள் அனுப்ப‌ப்ப‌ட்ட‌ன‌.'),
 	'Webserver file %s' => 'வெப் ச‌ர்வ‌ர் கோப்பு %s',
 	'File does not exist.' => 'கோப்பு இல்லை.',
 	'%d in total' => 'மொத்தம் %d ',
@@ -228,7 +224,7 @@ $translations = array(
 	'Create sequence' => 'வ‌ரிசைமுறையை உருவாக்கு',
 	'User types' => 'ப‌ய‌னாள‌ர் வ‌கைக‌ள்',
 	'Create type' => 'வ‌கையை உருவாக்கு',
-	'Item%s has been inserted.' => 'உருப்ப‌டி (Item) சேர்க்க‌ப்ப‌ட்ட‌து.',
+	'Item%s has been inserted.' => 'உருப்ப‌டி (Item%s) சேர்க்க‌ப்ப‌ட்ட‌து.',
 	'Schema has been dropped.' => 'அமைப்புமுறை நீக்க‌ப்ப‌ட்ட‌து.',
 	'Schema has been created.' => 'அமைப்புமுறை உருவாக்க‌ப்ப‌ட்ட‌து.',
 	'Schema has been altered.' => 'அமைப்புமுறை மாற்ற‌ப்ப‌ட்ட‌து.',
@@ -251,7 +247,6 @@ $translations = array(
 	'Network' => 'நெட்வொர்க்',
 	'Geometry' => 'வ‌டிவ‌விய‌ல் (Geometry)',
 	'File exists.' => 'கோப்பு உள்ள‌து.',
-	'Attachments' => 'இணைப்புக‌ள்',
 	'now' => 'இப்பொழுது',
 	'%d query(s) executed OK.' => array('%d வின‌வ‌ல் செய‌ல்ப‌டுத்த‌ப்ப‌ட்ட‌து.', '%d வின‌வ‌ல்க‌ள் செய‌ல்ப‌டுத்த‌ப்ப‌ட்ட‌ன‌.'),
 	'Show only errors' => 'பிழைக‌ளை ம‌ட்டும் காண்பிக்க‌வும்',
@@ -265,3 +260,5 @@ $translations = array(
 	'Edit all' => 'அனைத்தையும் தொகு',
 	'HH:MM:SS' => 'HH:MM:SS',
 );
+
+// run `php ../../lang.php ta` to update this file

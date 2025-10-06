@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	// label for database system selection (MySQL, SQLite, ...)
 	'System' => 'Sistem',
 	'Server' => 'Server',
@@ -73,7 +75,6 @@ $translations = array(
 	'Data' => 'Data',
 
 	'Database' => 'Basis data',
-	'database' => 'basis data',
 	'Use' => 'Gunakan',
 	'Select database' => 'Pilih basis data',
 	'Invalid database.' => 'Basis data tidak sah.',
@@ -183,7 +184,7 @@ $translations = array(
 	'Alter indexes' => 'Ubah indeks',
 	'Add next' => 'Tambah setelahnya',
 	'Index Type' => 'Jenis Indeks',
-	'Column (length)' => 'Kolom (panjang)',
+	'length' => 'panjang',
 
 	'Foreign keys' => 'Kunci asing',
 	'Foreign key' => 'Kunci asing',
@@ -258,13 +259,6 @@ $translations = array(
 	'Clone' => 'Gandakan',
 	'Delete' => 'Hapus',
 
-	'E-mail' => 'Surel',
-	'From' => 'Dari',
-	'Subject' => 'Judul',
-	'Attachments' => 'Lampiran',
-	'Send' => 'Kirim',
-	'%d e-mail(s) have been sent.' => '%d surel berhasil dikirim.',
-
 	// data type descriptions
 	'Numbers' => 'Angka',
 	'Date and time' => 'Tanggal dan waktu',
@@ -314,3 +308,5 @@ $translations = array(
 	'Type has been created.' => 'Jenis berhasil dibuat.',
 	'Alter type' => 'Ubah jenis',
 );
+
+// run `php ../../lang.php id` to update this file

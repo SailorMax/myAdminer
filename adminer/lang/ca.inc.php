@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	'Login' => 'Inicia la sessió',
 	'Logout successful.' => 'Desconnexió correcta.',
 	'Invalid credentials.' => 'Credencials invàlides.',
@@ -31,7 +33,6 @@ $translations = array(
 	'Create database' => 'Crea una base de dades',
 	'SQL command' => 'Ordre SQL',
 	'Logout' => 'Desconnecta',
-	'database' => 'base de dades',
 	'Use' => 'Utilitza',
 	'No tables.' => 'No hi ha cap taula.',
 	'select' => 'registres',
@@ -96,7 +97,7 @@ $translations = array(
 	'ON DELETE' => 'ON DELETE',
 	'ON UPDATE' => 'ON UPDATE',
 	'Index Type' => 'Tipus d\'índex',
-	'Column (length)' => 'Columna (longitud)',
+	'length' => 'longitud',
 	'View has been dropped.' => 'S\'ha suprimit la vista.',
 	'View has been altered.' => 'S\'ha modificat la vista.',
 	'View has been created.' => 'S\'ha creat la vista.',
@@ -205,11 +206,6 @@ $translations = array(
 	'History' => 'Història',
 	'Variables' => 'Variables',
 	'Source and target columns must have the same data type, there must be an index on the target columns and referenced data must exist.' => 'Les columnes d\'origen i de destinació han de ser del mateix tipus, la columna de destinació ha d\'estar indexada i les dades referenciades han d\'existir.',
-	'E-mail' => 'Correu electrònic',
-	'From' => 'De',
-	'Subject' => 'Assumpte',
-	'Send' => 'Envia',
-	'%d e-mail(s) have been sent.' => array('S\'ha enviat %d correu electrònic.', 'S\'han enviat %d correus electrònics.'),
 	'Run file' => 'Executa el fitxer',
 	'Numbers' => 'Nombres',
 	'Date and time' => 'Data i hora',
@@ -224,7 +220,6 @@ $translations = array(
 	'File does not exist.' => 'El fitxer no existeix.',
 	'Permanent login' => 'Sessió permanent',
 	'%d in total' => '%d en total',
-	'Attachments' => 'Adjuncions',
 	'System' => 'Sistema',
 	'last' => 'darrera',
 	'Network' => 'Xarxa',
@@ -266,3 +261,5 @@ $translations = array(
 	'Edit all' => 'Edita-ho tot',
 	'HH:MM:SS' => 'HH:MM:SS',
 );
+
+// run `php ../../lang.php ca` to update this file

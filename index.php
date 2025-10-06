@@ -19,9 +19,6 @@ else
 
 function adminer_object()
 {
-    // required to run any plugin
-    include_once CURRENT_DIR."plugins/plugin.php";
-
     // autoloader
     foreach (glob(CURRENT_DIR."plugins/*.php") as $filename) {
         include_once $filename;
@@ -30,8 +27,8 @@ function adminer_object()
     $plugins = array(
         // specify enabled plugins here
         new AdminerFileUpload((str_repeat("../", substr_count(ADMINER_WEB_PATH, "/")))."data/"),
-        new AdminerSlugify,
-        new AdminerForeignSystem,
+        new AdminerSlugify(),
+        new AdminerForeignSystem(),
     );
 
 	$_php_my_admin_plugins = array();
@@ -55,9 +52,9 @@ function adminer_object()
 			<link rel="stylesheet" type="text/css" href="designs/nette-mod/adminer.css" />
 <?php } ?>
 
-			<script type="text/javascript" src="<?=ADMINER_WEB_PATH?>static/functions.js"<?=nonce()?>></script>
-			<script type="text/javascript" src="<?=ADMINER_WEB_PATH?>static/editing.js"<?=nonce()?>></script>
-			<script<?=nonce()?>>
+			<script type="text/javascript" src="<?=ADMINER_WEB_PATH?>static/functions.js"<?=Adminer\nonce()?>></script>
+			<script type="text/javascript" src="<?=ADMINER_WEB_PATH?>static/editing.js"<?=Adminer\nonce()?>></script>
+			<script<?=Adminer\nonce()?>>
 			// store as separate function for possibility to use it in js-plugins
 			function adminerFixResourcesRelatedPath()
 			{
@@ -77,10 +74,10 @@ function adminer_object()
 			</script>
 <?php if (file_exists("externals/jush")) { ?>
 			<link rel="stylesheet" type="text/css" href="externals/jush/jush.css" />
-			<script type="text/javascript" src="externals/jush/modules/jush.js"<?=nonce()?>></script>
-			<script type="text/javascript" src="externals/jush/modules/jush-textarea.js"<?=nonce()?>></script>
-			<script type="text/javascript" src="externals/jush/modules/jush-txt.js"<?=nonce()?>></script>
-			<script type="text/javascript" src="externals/jush/modules/jush-sql.js"<?=nonce()?>></script>
+			<script type="text/javascript" src="externals/jush/modules/jush.js"<?=Adminer\nonce()?>></script>
+			<script type="text/javascript" src="externals/jush/modules/jush-textarea.js"<?=Adminer\nonce()?>></script>
+			<script type="text/javascript" src="externals/jush/modules/jush-txt.js"<?=Adminer\nonce()?>></script>
+			<script type="text/javascript" src="externals/jush/modules/jush-sql.js"<?=Adminer\nonce()?>></script>
 <?php } ?>
 <?php
 			return false;		// do not use default adminer.css + few other files
@@ -95,7 +92,7 @@ function adminer_object()
     return new AdminerCustomization($plugins);
     */
 
-	class myAdminerWithPlugins extends AdminerPlugin
+	class myAdminerWithPlugins extends Adminer\Plugins
 	{
 		function login($login, $password)
 		{
@@ -107,6 +104,15 @@ function adminer_object()
 		}
 	}
 
+	// add all custom drivers
+	$basename = "../plugins/drivers";
+	if (is_dir($basename)) {
+		foreach (glob("$basename/*.php") as $filename) {
+			include_once "./$filename";
+		}
+	}
+
+	// init
     return new myAdminerWithPlugins($plugins);
 }
 

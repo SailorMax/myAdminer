@@ -10,11 +10,10 @@ class AdminerTablesListNameSelect
 {
 	function head()
 	{
-		global $adminer;
-		if ($adminer->database() === null)
+		if (Adminer\adminer()->database() === null)
 			return;
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 			var GetCSSRulesOfElement = function(el)

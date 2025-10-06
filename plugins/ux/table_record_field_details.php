@@ -10,11 +10,10 @@ class AdminerTableRecordFieldDetails
 {
 	function head()
 	{
-		global $adminer;
-		if ($adminer->database() === null)
+		if (Adminer\adminer()->database() === null)
 			return;
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 			// Output field comments in record editor

@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	'Login' => 'התחברות',
 	'Logout successful.' => 'ההתחברות הצליחה',
 	'Invalid credentials.' => 'פרטי התחברות שגויים',
@@ -30,7 +32,6 @@ $translations = array(
 	'Create database' => 'צור מסד נתונים',
 	'SQL command' => 'שאילתת SQL',
 	'Logout' => 'התנתק',
-	'database' => 'מסד נתונים',
 	'Use' => 'השתמש',
 	'No tables.' => 'אין טבלאות',
 	'select' => 'בחר',
@@ -94,7 +95,7 @@ $translations = array(
 	'ON DELETE' => 'בעת מחיקה',
 	'ON UPDATE' => 'בעת עידכון',
 	'Index Type' => 'סוג אינדקס',
-	'Column (length)' => 'עמודה (אורך)',
+	'length' => 'אורך',
 	'View has been dropped.' => 'התצוגה הושלכה',
 	'View has been altered.' => 'התצוגה שונתה',
 	'View has been created.' => 'התצוגה נוצרה',
@@ -211,11 +212,6 @@ $translations = array(
 	'Binary' => 'בינארי',
 	'Lists' => 'רשימות',
 	'Editor' => 'עורך',
-	'E-mail' => 'דוא"ל',
-	'From' => 'מ:',
-	'Subject' => 'נושא',
-	'Send' => 'שלח',
-	'%d e-mail(s) have been sent.' => '%d הודעות דוא"ל נשלחו',
 	'Webserver file %s' => 'קובץ השרת %s',
 	'File does not exist.' => 'הקובץ אינו קיים',
 	'%d in total' => '%d בסך הכל',
@@ -250,7 +246,6 @@ $translations = array(
 	'Network' => 'רשת',
 	'Geometry' => 'גיאומטריה',
 	'File exists.' => 'קובץ קיים',
-	'Attachments' => 'קבצים מצורפים',
 	'Item%s has been inserted.' => 'הפריט %s הוזן בהצלחה',
 	'now' => 'כעת',
 	'%d query(s) executed OK.' => '%d שאילתות בוצעו בהצלחה',
@@ -279,7 +274,7 @@ $translations = array(
 	'Default value' => 'ערך ברירת מחדל',
 	'Full table scan' => 'סריקה טבלה מלאה',
 	'Too many unsuccessful logins, try again in %d minute(s).' => 'יותר מידי נסיונות כניסה נכשלו, אנא נסה עוד %d דקות',
-	'Thanks for using Adminer, consider <a href="https://www.adminer.org/en/donation/">donating</a>.' => 'תודה שהשתמש ב-adminer אנא שקול <a href="https://www.adminer.org/en/donation/">לתרום</a>.',
+	'Thanks for using Adminer, consider <a href="https://www.adminer.org/en/donation/">donating</a>.' => 'תודה שהשתמש ב-adminer אנא שקול <a href="https://www.adminer.org/en/donation/">לתרום</a>',
 	'Master password expired. <a href="https://www.adminer.org/en/extension/"%s>Implement</a> %s method to make it permanent.' => 'סיסמת המאסטר פגה <a href="https://www.adminer.org/en/extension/"%s>התקן תוסף</a> על מנת להפוך את זה לתמידי',
 	'If you did not send this request from Adminer then close this page.' => 'אם לא אתה שלחת בקשה ל-Adminer הינך יכול לסגור חלון זה',
 	'You can upload a big SQL file via FTP and import it from server.' => 'ניתן לעלות קבצים ב-FTP ואז למשוך אותם מהשרת',
@@ -291,3 +286,5 @@ $translations = array(
 	'yes' => 'כן',
 	'no' => 'לא',
 );
+
+// run `php ../../lang.php he` to update this file

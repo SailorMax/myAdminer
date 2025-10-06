@@ -20,7 +20,7 @@ class AdminerFramesetSimulator
 	function head()
 	{
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 <?php
 		if ($this->DETECT_SINGLE_LANGUAGE_MODE && empty($GLOBALS["langs"]))
 		{

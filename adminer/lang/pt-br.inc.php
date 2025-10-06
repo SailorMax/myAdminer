@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	'Login' => 'Entrar',
 	'Logout successful.' => 'Saída bem sucedida.',
 	'Invalid credentials.' => 'Identificação inválida.',
@@ -31,7 +33,6 @@ $translations = array(
 	'Create database' => 'Criar Base de dados',
 	'SQL command' => 'Comando SQL',
 	'Logout' => 'Sair',
-	'database' => 'base de dados',
 	'Use' => 'Usar',
 	'No tables.' => 'Não existem tabelas.',
 	'select' => 'selecionar',
@@ -96,7 +97,7 @@ $translations = array(
 	'ON DELETE' => 'ON DELETE',
 	'ON UPDATE' => 'ON UPDATE',
 	'Index Type' => 'Tipo de índice',
-	'Column (length)' => 'Coluna (tamanho)',
+	'length' => 'tamanho',
 	'View has been dropped.' => 'A Visão foi apagada.',
 	'View has been altered.' => 'A Visão foi alterada.',
 	'View has been created.' => 'A Visão foi criada.',
@@ -213,11 +214,6 @@ $translations = array(
 	'Binary' => 'Binário',
 	'Lists' => 'Listas',
 	'Editor' => 'Editor',
-	'E-mail' => 'E-mail',
-	'From' => 'De',
-	'Subject' => 'Assunto',
-	'Send' => 'Enviar',
-	'%d e-mail(s) have been sent.' => array('%d email foi enviado.', '%d emails foram enviados.'),
 	'Webserver file %s' => 'Arquivo do servidor web %s',
 	'File does not exist.' => 'Arquivo não existe.',
 	'%d in total' => '%d no total',
@@ -252,7 +248,6 @@ $translations = array(
 	'Network' => 'Rede',
 	'Geometry' => 'Geometria',
 	'File exists.' => 'Arquivo já existe.',
-	'Attachments' => 'Anexos',
 	'%d query(s) executed OK.' => array('%d consulta sql executada corretamente.', '%d consultas sql executadas corretamente.'),
 	'Show only errors' => 'Mostrar somente erros',
 	'Refresh' => 'Atualizar',
@@ -261,3 +256,5 @@ $translations = array(
 	'now' => 'agora',
 	'ltr' => 'ltr',
 );
+
+// run `php ../../lang.php pt-br` to update this file

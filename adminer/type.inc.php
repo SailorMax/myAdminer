@@ -1,4 +1,6 @@
 <?php
+namespace Adminer;
+
 $TYPE = $_GET["type"];
 $row = $_POST;
 
@@ -22,12 +24,20 @@ if (!$row) {
 <p>
 <?php
 if ($TYPE != "") {
+	$types = driver()->types();
+	$enums = type_values($types[$TYPE]);
+	if ($enums) {
+		echo "<code class='jush-" . JUSH . "'>ENUM (" . h($enums) . ")</code>\n<p>";
+	}
 	echo "<input type='submit' name='drop' value='" . lang('Drop') . "'>" . confirm(lang('Drop %s?', $TYPE)) . "\n";
 } else {
-	echo "<input name='name' value='" . h($row['name']) . "' autocapitalize='off'>\n";
+	echo lang('Name') . ": <input name='name' value='" . h($row['name']) . "' autocapitalize='off'>\n";
+	echo doc_link(array(
+		'pgsql' => "datatype-enum.html",
+	), "?");
 	textarea("as", $row["as"]);
 	echo "<p><input type='submit' value='" . lang('Save') . "'>\n";
 }
+echo input_token();
 ?>
-<input type="hidden" name="token" value="<?php echo $token; ?>">
 </form>

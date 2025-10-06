@@ -1,131 +1,150 @@
 <?php
+namespace Adminer;
+
 add_driver("clickhouse", "ClickHouse (alpha)");
 
 if (isset($_GET["clickhouse"])) {
-	define("DRIVER", "clickhouse");
+	define('Adminer\DRIVER', "clickhouse");
 
-	class Min_DB {
-		var $extension = "JSON", $server_info, $errno, $_result, $error, $_url;
-		var $_db = 'default';
+	if (ini_bool('allow_url_fopen')) {
+		class Db extends SqlDb {
+			public $extension = "JSON";
+			public $_db = 'default';
+			private $url;
 
-		function rootQuery($db, $query) {
-			@ini_set('track_errors', 1); // @ - may be disabled
-			$file = @file_get_contents("$this->_url/?database=$db", false, stream_context_create(array('http' => array(
-				'method' => 'POST',
-				'content' => $this->isQuerySelectLike($query) ? "$query FORMAT JSONCompact" : $query,
-				'header' => 'Content-type: application/x-www-form-urlencoded',
-				'ignore_errors' => 1, // available since PHP 5.2.10
-			))));
+			function rootQuery($db, $query) {
+				$file = @file_get_contents("$this->url/?database=$db", false, stream_context_create(array('http' => array(
+					'method' => 'POST',
+					'content' => $this->isQuerySelectLike($query) ? "$query FORMAT JSONCompact" : $query,
+					'header' => 'Content-type: application/x-www-form-urlencoded',
+					'ignore_errors' => 1,
+					'follow_location' => 0,
+					'max_redirects' => 0,
+				))));
 
-			if ($file === false) {
-				$this->error = $php_errormsg;
-				return $file;
-			}
-			if (!preg_match('~^HTTP/[0-9.]+ 2~i', $http_response_header[0])) {
-				$this->error = lang('Invalid credentials.') . " $http_response_header[0]";
-				return false;
-			}
-			$return = json_decode($file, true);
-			if ($return === null) {
-				if (!$this->isQuerySelectLike($query) && $file === '') {
-					return true;
+				if ($file === false || !preg_match('~^HTTP/[0-9.]+ 2~i', $http_response_header[0])) {
+					$this->error = lang('Invalid credentials.');
+					return false;
 				}
+				$return = json_decode($file, true);
+				if ($return === null) {
+					if (!$this->isQuerySelectLike($query) && $file === '') {
+						return true;
+					}
 
-				$this->errno = json_last_error();
-				if (function_exists('json_last_error_msg')) {
-					$this->error = json_last_error_msg();
-				} else {
-					$constants = get_defined_constants(true);
-					foreach ($constants['json'] as $name => $value) {
-						if ($value == $this->errno && preg_match('~^JSON_ERROR_~', $name)) {
-							$this->error = $name;
-							break;
+					$this->errno = json_last_error();
+					if (function_exists('json_last_error_msg')) {
+						$this->error = json_last_error_msg();
+					} else {
+						$constants = get_defined_constants(true);
+						foreach ($constants['json'] as $name => $value) {
+							if ($value == $this->errno && preg_match('~^JSON_ERROR_~', $name)) {
+								$this->error = $name;
+								break;
+							}
 						}
 					}
 				}
+				return new Result($return);
 			}
-			return new Min_Result($return);
+
+			function isQuerySelectLike($query) {
+				return (bool) preg_match('~^(select|show)~i', $query);
+			}
+
+			function query($query, $unbuffered = false) {
+				return $this->rootQuery($this->_db, $query);
+			}
+
+			function attach($server, $username, $password): string {
+				preg_match('~^(https?://)?(.*)~', $server, $match);
+				$this->url = ($match[1] ?: "http://") . urlencode($username) . ":" . urlencode($password) . "@$match[2]";
+				$return = $this->query('SELECT 1');
+				return ($return ? '' : $this->error);
+			}
+
+			function select_db($database) {
+				$this->_db = $database;
+				return true;
+			}
+
+			function quote($string): string {
+				return "'" . addcslashes($string, "\\'") . "'";
+			}
 		}
 
-		function isQuerySelectLike($query) {
-			return (bool) preg_match('~^(select|show)~i', $query);
-		}
+		class Result {
+			public $num_rows, $columns, $meta;
+			private $rows, $offset = 0;
 
-		function query($query) {
-			return $this->rootQuery($this->_db, $query);
-		}
+			function __construct($result) {
+				foreach ($result['data'] as $item) {
+					$row = array();
+					foreach ($item as $key => $val) {
+						$row[$key] = is_scalar($val) ? $val : json_encode($val, 256); // 256 - JSON_UNESCAPED_UNICODE
+					}
+					$this->rows[] = $row;
+				}
+				$this->num_rows = $result['rows'];
+				$this->meta = $result['meta'];
+				$this->columns = array_column($this->meta, 'name');
+				reset($this->rows);
+			}
 
-		function connect($server, $username, $password) {
-			preg_match('~^(https?://)?(.*)~', $server, $match);
-			$this->_url = ($match[1] ? $match[1] : "http://") . "$username:$password@$match[2]";
-			$return = $this->query('SELECT 1');
-			return (bool) $return;
-		}
+			function fetch_assoc() {
+				$row = current($this->rows);
+				next($this->rows);
+				return $row === false ? false : array_combine($this->columns, $row);
+			}
 
-		function select_db($database) {
-			$this->_db = $database;
-			return true;
-		}
+			function fetch_row() {
+				$row = current($this->rows);
+				next($this->rows);
+				return $row;
+			}
 
-		function quote($string) {
-			return "'" . addcslashes($string, "\\'") . "'";
-		}
-
-		function multi_query($query) {
-			return $this->_result = $this->query($query);
-		}
-
-		function store_result() {
-			return $this->_result;
-		}
-
-		function next_result() {
-			return false;
-		}
-
-		function result($query, $field = 0) {
-			$result = $this->query($query);
-			return $result['data'];
+			function fetch_field(): \stdClass {
+				$column = $this->offset++;
+				$return = new \stdClass;
+				if ($column < count($this->columns)) {
+					$return->name = $this->meta[$column]['name'];
+					$return->type = $this->meta[$column]['type']; //! map to MySQL numbers
+					$return->charsetnr = 0;
+				}
+				return $return;
+			}
 		}
 	}
 
-	class Min_Result {
-		var $num_rows, $_rows, $columns, $meta, $_offset = 0;
+	class Driver extends SqlDriver {
+		static $extensions = array("allow_url_fopen");
+		static $jush = "clickhouse";
 
-		function __construct($result) {
-			$this->num_rows = $result['rows'];
-			$this->_rows = $result['data'];
-			$this->meta = $result['meta'];
-			$this->columns = array_column($this->meta, 'name');
-			reset($this->_rows);
-		}
+		public $operators = array("=", "<", ">", "<=", ">=", "!=", "~", "!~", "LIKE", "LIKE %%", "IN", "IS NULL", "NOT LIKE", "NOT IN", "IS NOT NULL", "SQL");
+		public $grouping = array("avg", "count", "count distinct", "max", "min", "sum");
 
-		function fetch_assoc() {
-			$row = current($this->_rows);
-			next($this->_rows);
-			return $row === false ? false : array_combine($this->columns, $row);
-		}
-
-		function fetch_row() {
-			$row = current($this->_rows);
-			next($this->_rows);
-			return $row;
-		}
-
-		function fetch_field() {
-			$column = $this->_offset++;
-			$return = new stdClass;
-			if ($column < count($this->columns)) {
-				$return->name = $this->meta[$column]['name'];
-				$return->orgname = $return->name;
-				$return->type = $this->meta[$column]['type'];
+		static function connect($server, $username, $password) {
+			if (!preg_match('~^(https?://)?[-a-z\d.]+(:\d+)?$~', $server)) {
+				return lang('Invalid server.');
 			}
-			return $return;
+			return parent::connect($server, $username, $password);
 		}
-	}
 
+		function __construct(Db $connection) {
+			parent::__construct($connection);
+			$this->types = array( //! arrays
+				lang('Numbers') => array(
+					"Int8" => 3, "Int16" => 5, "Int32" => 10, "Int64" => 19,
+					"UInt8" => 3, "UInt16" => 5, "UInt32" => 10, "UInt64" => 20,
+					"Float32" => 7, "Float64" => 16,
+					'Decimal' => 38, 'Decimal32' => 9, 'Decimal64' => 18, 'Decimal128' => 38,
+				),
+				lang('Date and time') => array("Date" => 13, "DateTime" => 20),
+				lang('Strings') => array("String" => 0),
+				lang('Binary') => array("FixedString" => 0),
+			);
+		}
 
-	class Min_Driver extends Min_SQL {
 		function delete($table, $queryWhere, $limit = 0) {
 			if ($queryWhere === '') {
 				$queryWhere = 'WHERE 1=1';
@@ -133,7 +152,7 @@ if (isset($_GET["clickhouse"])) {
 			return queries("ALTER TABLE " . table($table) . " DELETE $queryWhere");
 		}
 
-		function update($table, $set, $queryWhere, $limit = 0, $separator = "\n") {
+		function update($table, array $set, $queryWhere, $limit = 0, $separator = "\n") {
 			$values = array();
 			foreach ($set as $key => $val) {
 				$values[] = "$key = $val";
@@ -212,18 +231,7 @@ if (isset($_GET["clickhouse"])) {
 		return apply_queries("DROP TABLE", $tables);
 	}
 
-	function connect() {
-		global $adminer;
-		$connection = new Min_DB;
-		$credentials = $adminer->credentials();
-		if ($connection->connect($credentials[0], $credentials[1], $credentials[2])) {
-			return $connection;
-		}
-		return $connection->error;
-	}
-
 	function get_databases($flush) {
-		global $connection;
 		$result = get_rows('SHOW DATABASES');
 
 		$return = array();
@@ -235,7 +243,7 @@ if (isset($_GET["clickhouse"])) {
 	}
 
 	function limit($query, $where, $limit, $offset = 0, $separator = " ") {
-		return " $query$where" . ($limit !== null ? $separator . "LIMIT $limit" . ($offset ? ", $offset" : "") : "");
+		return " $query$where" . ($limit ? $separator . "LIMIT $limit" . ($offset ? ", $offset" : "") : "");
 	}
 
 	function limit1($table, $query, $where, $separator = "\n") {
@@ -245,13 +253,8 @@ if (isset($_GET["clickhouse"])) {
 	function db_collation($db, $collations) {
 	}
 
-	function engines() {
-		return array('MergeTree');
-	}
-
 	function logged_user() {
-		global $adminer;
-		$credentials = $adminer->credentials();
+		$credentials = adminer()->credentials();
 		return $credentials[1];
 	}
 
@@ -270,17 +273,13 @@ if (isset($_GET["clickhouse"])) {
 	}
 
 	function table_status($name = "", $fast = false) {
-		global $connection;
 		$return = array();
-		$tables = get_rows("SELECT name, engine FROM system.tables WHERE database = " . q($connection->_db));
+		$tables = get_rows("SELECT name, engine FROM system.tables WHERE database = " . q(connection()->_db));
 		foreach ($tables as $table) {
 			$return[$table['name']] = array(
 				'Name' => $table['name'],
 				'Engine' => $table['engine'],
 			);
-			if ($name === $table['name']) {
-				return $return[$table['name']];
-			}
 		}
 		return $return;
 	}
@@ -316,7 +315,7 @@ if (isset($_GET["clickhouse"])) {
 				"default" => trim($row['default_expression']),
 				"null" => $nullable,
 				"auto_increment" => '0',
-				"privileges" => array("insert" => 1, "select" => 1, "update" => 0),
+				"privileges" => array("insert" => 1, "select" => 1, "update" => 0, "where" => 1, "order" => 1),
 			);
 		}
 
@@ -340,59 +339,22 @@ if (isset($_GET["clickhouse"])) {
 	}
 
 	function error() {
-		global $connection;
-		return h($connection->error);
+		return h(connection()->error);
 	}
 
-	function types() {
+	function types(): array {
 		return array();
-	}
-
-	function schemas() {
-		return array();
-	}
-
-	function get_schema() {
-		return "";
-	}
-
-	function set_schema($schema) {
-		return true;
 	}
 
 	function auto_increment() {
 		return '';
 	}
 
-	function last_id() {
+	function last_id($result) {
 		return 0; // ClickHouse doesn't have it
 	}
 
 	function support($feature) {
 		return preg_match("~^(columns|sql|status|table|drop_col)$~", $feature);
-	}
-
-	function driver_config() {
-		$types = array();
-		$structured_types = array();
-		foreach (array( //! arrays
-			lang('Numbers') => array("Int8" => 3, "Int16" => 5, "Int32" => 10, "Int64" => 19, "UInt8" => 3, "UInt16" => 5, "UInt32" => 10, "UInt64" => 20, "Float32" => 7, "Float64" => 16, 'Decimal' => 38, 'Decimal32' => 9, 'Decimal64' => 18, 'Decimal128' => 38),
-			lang('Date and time') => array("Date" => 13, "DateTime" => 20),
-			lang('Strings') => array("String" => 0),
-			lang('Binary') => array("FixedString" => 0),
-		) as $key => $val) {
-			$types += $val;
-			$structured_types[$key] = array_keys($val);
-		}
-		return array(
-			'jush' => "clickhouse",
-			'types' => $types,
-			'structured_types' => $structured_types,
-			'unsigned' => array(),
-			'operators' => array("=", "<", ">", "<=", ">=", "!=", "~", "!~", "LIKE", "LIKE %%", "IN", "IS NULL", "NOT LIKE", "NOT IN", "IS NOT NULL", "SQL"),
-			'functions' => array(),
-			'grouping' => array("avg", "count", "count distinct", "max", "min", "sum"),
-			'edit_functions' => array(),
-		);
 	}
 }

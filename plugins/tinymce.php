@@ -7,29 +7,22 @@
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
-class AdminerTinymce {
-	/** @access protected */
-	var $path;
+class AdminerTinymce extends Adminer\Plugin {
+	protected $path;
 
-	/**
-	* @param string
-	*/
 	function __construct($path = "tiny_mce/tiny_mce.js") {
 		$this->path = $path;
 	}
 
-	function head() {
-		$lang = "en";
-		if (function_exists('get_lang')) { // since Adminer 3.2.0
-			$lang = get_lang();
-			$lang = ($lang == "zh" ? "zh-cn" : ($lang == "zh-tw" ? "zh" : $lang));
-			if (!file_exists(dirname($this->path) . "/langs/$lang.js")) {
-				$lang = "en";
-			}
+	function head($dark = null) {
+		$lang = Adminer\LANG;
+		$lang = ($lang == "zh" ? "zh-cn" : ($lang == "zh-tw" ? "zh" : $lang));
+		if (!file_exists(dirname($this->path) . "/langs/$lang.js")) {
+			$lang = "en";
 		}
-		echo script_src($this->path);
+		echo Adminer\script_src($this->path);
 		?>
-<script<?php echo nonce(); ?>>
+<script<?php echo Adminer\nonce(); ?>>
 tinyMCE.init({
 	entity_encoding: 'raw',
 	language: '<?php echo $lang; ?>'
@@ -62,11 +55,11 @@ tinyMCE.init({
 
 	function editInput($table, $field, $attrs, $value) {
 		if (preg_match("~text~", $field["type"]) && preg_match("~_html~", $field["field"])) {
-			return "<textarea$attrs id='fields-" . h($field["field"]) . "' rows='12' cols='50'>" . h($value) . "</textarea>" . script("
-tinyMCE.remove(tinyMCE.get('fields-" . js_escape($field["field"]) . "') || { });
-tinyMCE.EditorManager.execCommand('mceAddControl', true, 'fields-" . js_escape($field["field"]) . "');
-qs('#form').onsubmit = function () {
-	tinyMCE.each(tinyMCE.editors, function (ed) {
+			return "<textarea$attrs id='fields-" . Adminer\h($field["field"]) . "' rows='12' cols='50'>" . Adminer\h($value) . "</textarea>" . Adminer\script("
+tinyMCE.remove(tinyMCE.get('fields-" . Adminer\js_escape($field["field"]) . "') || { });
+tinyMCE.EditorManager.execCommand('mceAddControl', true, 'fields-" . Adminer\js_escape($field["field"]) . "');
+qs('#form').onsubmit = () => {
+	tinyMCE.each(tinyMCE.editors, ed => {
 		ed.remove();
 	});
 };
@@ -74,4 +67,11 @@ qs('#form').onsubmit = function () {
 		}
 	}
 
+	protected $translations = array(
+		'cs' => array('' => 'Upravuje všechna políčka obsahující "_html" pomocí HTML editoru TinyMCE a zobrazuje výsledné HTML ve výpisu'),
+		'de' => array('' => 'Bearbeiten Sie alle Felder, die "_html" enthalten, mit dem HTML-Editor TinyMCE und zeigen Sie den HTML-Code in Select an'),
+		'pl' => array('' => 'Edytuj wszystkie pola zawierające "_html" za pomocą edytora HTML TinyMCE i wyświetl kod HTML w wybranych'),
+		'ro' => array('' => 'Editați toate câmpurile care conțin "_html" cu ajutorul editorului HTML TinyMCE și afișați HTML-ul în select'),
+		'ja' => array('' => '列名が "_html" を含む列を TinyMCE の HTML エディタで編集し、編集結果の HTML コードを "選択" 画面に表示'),
+	);
 }

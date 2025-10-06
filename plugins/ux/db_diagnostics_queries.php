@@ -15,7 +15,7 @@ class AdminerDbDiagnosticsQueries
 		if (function_exists("get_page_table") && (get_page_table() !== ""))		// for selected table turn off. Currently we don't have queries for this case
 			return;
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 			// add shortcut for some queries
@@ -113,7 +113,7 @@ class AdminerDbDiagnosticsQueries
 					if (db_name)
 					{
 <?php
-						switch (DRIVER)
+						switch (Adminer\DRIVER)
 						{
 							case "server":	// MySQL, MySQLi, PDO_MySQL
 ?>
@@ -219,7 +219,7 @@ class AdminerDbDiagnosticsQueries
 					else	// no selected Database
 					{
 <?php
-						switch (DRIVER)
+						switch (Adminer\DRIVER)
 						{
 							case "server":	// MySQL, MySQLi, PDO_MySQL
 ?>

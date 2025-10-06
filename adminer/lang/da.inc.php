@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	'System' => 'System',
 	'Server' => 'Server',
 	'Username' => 'Brugernavn',
@@ -64,7 +66,6 @@ $translations = array(
 	'Format' => 'Format',
 	'Data' => 'Data',
 	'Database' => 'Database',
-	'database' => 'database',
 	'Use' => 'Brug',
 	'Select database' => 'Vælg database',
 	'Invalid database.' => 'Ugyldig database.',
@@ -165,7 +166,7 @@ $translations = array(
 	'Alter indexes' => 'Ændre indekser',
 	'Add next' => 'Læg til næste',
 	'Index Type' => 'Indekstype',
-	'Column (length)' => 'Kolonne (længde)',
+	'length' => 'længde',
 	'Foreign keys' => 'Fremmednøgler',
 	'Foreign key' => 'Fremmednøgle',
 	'Foreign key has been dropped.' => 'Fremmednøglen er slettet.',
@@ -237,12 +238,6 @@ $translations = array(
 	'Clone' => 'Klon',
 	'Delete' => 'Slet',
 	'You have no privileges to update this table.' => 'Du mangler rettigheder til at ændre denne tabellen.',
-	'E-mail' => 'E-mail',
-	'From' => 'Fra',
-	'Subject' => 'Titel',
-	'Attachments' => 'Vedhæft',
-	'Send' => 'Send',
-	'%d e-mail(s) have been sent.' => array('%d email sendt.', '%d emails sendt.'),
 	'Numbers' => 'Nummer',
 	'Date and time' => 'Dato og tid',
 	'Strings' => 'Strenge',
@@ -280,3 +275,5 @@ $translations = array(
 	'Alter type' => 'Ændre type',
 	'Saving' => 'Gemmer',
 );
+
+// run `php ../../lang.php da` to update this file

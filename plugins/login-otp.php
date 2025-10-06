@@ -6,12 +6,11 @@
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
-class AdminerLoginOtp {
-	/** @access protected */
-	var $secret;
-	
-	/** 
-	* @param string decoded secret, e.g. base32_decode("SECRET")
+class AdminerLoginOtp extends Adminer\Plugin {
+	protected $secret;
+
+	/**
+	* @param string $secret decoded secret, e.g. base64_decode("SECRET")
 	*/
 	function __construct($secret) {
 		$this->secret = $secret;
@@ -19,12 +18,12 @@ class AdminerLoginOtp {
 			$_SESSION["otp"] = (string) $_POST["auth"]["otp"];
 		}
 	}
-	
+
 	function loginFormField($name, $heading, $value) {
 		if ($name == 'password') {
-			return $heading . $value
-				. "<tr><th><acronym title='One Time Password' lang='en'>OTP</acronym>"
-				. "<td><input type='number' name='auth[otp]' value='" . h($_SESSION["otp"]) . "' size='6' autocomplete='off'>\n"
+			return $heading . $value . "\n"
+				. "<tr><th><abbr title='" . $this->lang('One Time Password') . "'>OTP</abbr>"
+				. "<td><input type='number' name='auth[otp]' value='" . Adminer\h($_SESSION["otp"]) . "' size='6' autocomplete='one-time-code' inputmode='numeric' maxlength='6' pattern='\d{6}'>\n"
 			;
 		}
 	}
@@ -34,16 +33,16 @@ class AdminerLoginOtp {
 			$timeSlot = floor(time() / 30);
 			foreach (array(0, -1, 1) as $skew) {
 				if ($_SESSION["otp"] == $this->getOtp($timeSlot + $skew)) {
-					restart_session();
+					Adminer\restart_session();
 					unset($_SESSION["otp"]);
-					stop_session();
+					Adminer\stop_session();
 					return;
 				}
 			}
-			return 'Invalid OTP.';
+			return $this->lang('Invalid OTP.');
 		}
 	}
-	
+
 	function getOtp($timeSlot) {
 		$data = str_pad(pack('N', $timeSlot), 8, "\0", STR_PAD_LEFT);
 		$hash = hash_hmac('sha1', $data, $this->secret, true);
@@ -51,4 +50,30 @@ class AdminerLoginOtp {
 		$unpacked = unpack('N', substr($hash, $offset, 4));
 		return ($unpacked[1] & 0x7FFFFFFF) % 1e6;
 	}
+
+	function screenshot() {
+		return "https://www.adminer.org/static/login-otp.png";
+	}
+
+	protected $translations = array(
+		'cs' => array(
+			'' => 'Při přihlášení požaduje jednorázové heslo',
+			'One Time Password' => 'Jednorázové heslo',
+			'Invalid OTP.' => 'Neplatné jednorázové heslo.',
+		),
+		'de' => array(
+			'' => 'Bei der Anmeldung ist ein Einmalpasswort (Zwei-Faktor-Authentifizierung) erforderlich',
+			'One Time Password' => 'Einmal-Passwort',
+			'Invalid OTP.' => 'Ungültiger OTP.',
+		),
+		'pl' => array(
+			'' => 'Wymagaj jednorazowego hasła przy logowaniu',
+		),
+		'ro' => array(
+			'' => 'Cereți o parolă unică la autentificare',
+		),
+		'ja' => array(
+			'' => 'ログイン時にワンタイムパスワード (二要素認証) が必要',
+		),
+	);
 }

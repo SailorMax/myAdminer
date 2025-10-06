@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	'Login' => 'Logi sisse',
 	'Logout successful.' => 'Väljalogimine õnnestus.',
 	'Invalid credentials.' => 'Ebakorrektsed andmed.',
@@ -31,7 +33,6 @@ $translations = array(
 	'Create database' => 'Loo uus andmebaas',
 	'SQL command' => 'SQL-Päring',
 	'Logout' => 'Logi välja',
-	'database' => 'andmebaas',
 	'Use' => 'Kasuta',
 	'No tables.' => 'Tabeleid ei leitud.',
 	'select' => 'kuva',
@@ -96,7 +97,7 @@ $translations = array(
 	'ON DELETE' => 'ON DELETE',
 	'ON UPDATE' => 'ON UPDATE',
 	'Index Type' => 'Indeksi tüüp',
-	'Column (length)' => 'Veerg (pikkus)',
+	'length' => 'pikkus',
 	'View has been dropped.' => 'Vaade (VIEW) on edukalt kustutatud.',
 	'View has been altered.' => 'Vaade (VIEW) on edukalt muudetud.',
 	'View has been created.' => 'Vaade (VIEW) on edukalt loodud.',
@@ -213,11 +214,6 @@ $translations = array(
 	'Binary' => 'Binaar',
 	'Lists' => 'Listid',
 	'Editor' => 'Redaktor',
-	'E-mail' => 'E-post',
-	'From' => 'Kellelt',
-	'Subject' => 'Pealkiri',
-	'Send' => 'Saada',
-	'%d e-mail(s) have been sent.' => 'Saadetud kirju: %d.',
 	'Webserver file %s' => 'Fail serveris: %s',
 	'File does not exist.' => 'Faili ei leitud.',
 	'%d in total' => 'Kokku: %d',
@@ -252,7 +248,6 @@ $translations = array(
 	'Network' => 'Võrk (network)',
 	'Geometry' => 'Geomeetria',
 	'File exists.' => 'Fail juba eksisteerib.',
-	'Attachments' => 'Manused',
 	'%d query(s) executed OK.' => array('%d päring edukalt käivitatud.', '%d päringut edukalt käivitatud.'),
 	'Show only errors' => 'Kuva vaid veateateid',
 	'Refresh' => 'Uuenda',
@@ -266,3 +261,5 @@ $translations = array(
 	'Edit all' => 'Muuda kõiki',
 	'HH:MM:SS' => 'HH:MM:SS',
 );
+
+// run `php ../../lang.php et` to update this file

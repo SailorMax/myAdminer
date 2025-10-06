@@ -3,36 +3,29 @@
 * @author Steve Krämer
 */
 
+namespace Adminer;
+
 add_driver('firebird', 'Firebird (alpha)');
 
 if (isset($_GET["firebird"])) {
-	define("DRIVER", "firebird");
+	define('Adminer\DRIVER', "firebird");
 
-	if (extension_loaded("interbase") ) {
-		class Min_DB {
-			var
-				$extension = "Firebird",
-				$server_info,
-				$affected_rows,
-				$errno,
-				$error,
-				$_link, $_result
-			;
+	if (extension_loaded("interbase")) {
+		class Db extends SqlDb {
+			public $extension = "Firebird", $_link;
 
-			function connect($server, $username, $password) {
-				$this->_link = ibase_connect($server, $username, $password); 
+			function attach($server, $username, $password): string {
+				$this->_link = ibase_connect($server, $username, $password);
 				if ($this->_link) {
 					$url_parts = explode(':', $server);
-					$this->service_link = ibase_service_attach($url_parts[0], $username, $password);
-					$this->server_info = ibase_server_info($this->service_link, IBASE_SVC_SERVER_VERSION);
-				} else {
-					$this->errno = ibase_errcode();
-					$this->error = ibase_errmsg();
+					$service_link = ibase_service_attach($url_parts[0], $username, $password);
+					$this->server_info = ibase_server_info($service_link, IBASE_SVC_SERVER_VERSION);
+					return '';
 				}
-				return (bool) $this->_link;
+				return ibase_errmsg();
 			}
 
-			function quote($string) {
+			function quote($string): string {
 				return "'" . str_replace("'", "''", $string) . "'";
 			}
 
@@ -41,7 +34,7 @@ if (isset($_GET["firebird"])) {
 			}
 
 			function query($query, $unbuffered = false) {
-				$result = ibase_query($query, $this->_link);
+				$result = ibase_query($this->_link, $query);
 				if (!$result) {
 					$this->errno = ibase_errcode();
 					$this->error = ibase_errmsg();
@@ -52,67 +45,50 @@ if (isset($_GET["firebird"])) {
 					$this->affected_rows = ibase_affected_rows($this->_link);
 					return true;
 				}
-				return new Min_Result($result);
-			}
-
-			function multi_query($query) {
-				return $this->_result = $this->query($query);
-			}
-
-			function store_result() {
-				return $this->_result;
-			}
-
-			function next_result() {
-				return false;
-			}
-
-			function result($query, $field = 0) {
-				$result = $this->query($query);
-				if (!$result || !$result->num_rows) {
-					return false;
-				}
-				$row = $result->fetch_row();
-				return $row[$field];
+				return new Result($result);
 			}
 		}
 
-		class Min_Result {
-			var $num_rows, $_result, $_offset = 0;
+		class Result {
+			public $num_rows;
+			private $result, $offset = 0;
 
 			function __construct($result) {
-				$this->_result = $result;
+				$this->result = $result;
 				// $this->num_rows = ibase_num_rows($result);
 			}
 
 			function fetch_assoc() {
-				return ibase_fetch_assoc($this->_result);
+				return ibase_fetch_assoc($this->result);
 			}
 
 			function fetch_row() {
-				return ibase_fetch_row($this->_result);
+				return ibase_fetch_row($this->result);
 			}
 
-			function fetch_field() {
-				$field = ibase_field_info($this->_result, $this->_offset++);
+			function fetch_field(): \stdClass {
+				$field = ibase_field_info($this->result, $this->offset++);
 				return (object) array(
 					'name' => $field['name'],
-					'orgname' => $field['name'],
-					'type' => $field['type'],
-					'charsetnr' => $field['length'],
+					'type' => $field['type'], //! map to MySQL numbers
+					'charsetnr' => 0,
 				);
 			}
 
 			function __destruct() {
-				ibase_free_result($this->_result);
+				ibase_free_result($this->result);
 			}
 		}
 
 	}
-	
-	
-	
-	class Min_Driver extends Min_SQL {
+
+
+
+	class Driver extends SqlDriver {
+		static $extensions = array("interbase");
+		static $jush = "firebird";
+
+		public $operators = array("=");
 	}
 
 
@@ -125,23 +101,13 @@ if (isset($_GET["firebird"])) {
 		return idf_escape($idf);
 	}
 
-	function connect() {
-		global $adminer;
-		$connection = new Min_DB;
-		$credentials = $adminer->credentials();
-		if ($connection->connect($credentials[0], $credentials[1], $credentials[2])) {
-			return $connection;
-		}
-		return $connection->error;
-	}
-
 	function get_databases($flush) {
 		return array("domain");
 	}
 
 	function limit($query, $where, $limit, $offset = 0, $separator = " ") {
-		$return = ''; 
-		$return .= ($limit !== null ? $separator . "FIRST $limit" . ($offset ? " SKIP $offset" : "") : "");
+		$return = '';
+		$return .= ($limit ? $separator . "FIRST $limit" . ($offset ? " SKIP $offset" : "") : "");
 		$return .= " $query$where";
 		return $return;
 	}
@@ -153,25 +119,19 @@ if (isset($_GET["firebird"])) {
 	function db_collation($db, $collations) {
 	}
 
-	function engines() {
-		return array();
-	}
-
 	function logged_user() {
-		global $adminer;
-		$credentials = $adminer->credentials();
+		$credentials = adminer()->credentials();
 		return $credentials[1];
 	}
 
 	function tables_list() {
-		global $connection;
 		$query = 'SELECT RDB$RELATION_NAME FROM rdb$relations WHERE rdb$system_flag = 0';
-		$result = ibase_query($connection->_link, $query);
+		$result = ibase_query(connection()->_link, $query);
 		$return = array();
 		while ($row = ibase_fetch_assoc($result)) {
 				$return[$row['RDB$RELATION_NAME']] = 'table';
 		}
-		ksort($return);	
+		ksort($return);
 		return $return;
 	}
 
@@ -180,18 +140,14 @@ if (isset($_GET["firebird"])) {
 	}
 
 	function table_status($name = "", $fast = false) {
-		global $connection;
 		$return = array();
-		$data = tables_list();
+		$data = ($name != "" ? array($name => 1) : tables_list());
 		foreach ($data as $index => $val) {
 			$index = trim($index);
 			$return[$index] = array(
 				'Name' => $index,
 				'Engine' => 'standard',
 			);
-			if ($name == $index) {
-				return $return[$index];
-			}
 		}
 		return $return;
 	}
@@ -205,7 +161,6 @@ if (isset($_GET["firebird"])) {
 	}
 
 	function fields($table) {
-		global $connection;
 		$return = array();
 		$query = 'SELECT r.RDB$FIELD_NAME AS field_name,
 r.RDB$DESCRIPTION AS field_description,
@@ -240,7 +195,7 @@ LEFT JOIN RDB$COLLATIONS coll ON f.RDB$COLLATION_ID = coll.RDB$COLLATION_ID
 LEFT JOIN RDB$CHARACTER_SETS cset ON f.RDB$CHARACTER_SET_ID = cset.RDB$CHARACTER_SET_ID
 WHERE r.RDB$RELATION_NAME = ' . q($table) . '
 ORDER BY r.RDB$FIELD_POSITION';
-		$result = ibase_query($connection->_link, $query);
+		$result = ibase_query(connection()->_link, $query);
 		while ($row = ibase_fetch_assoc($result)) {
 			$return[trim($row['FIELD_NAME'])] = array(
 				"field" => trim($row["FIELD_NAME"]),
@@ -250,7 +205,7 @@ ORDER BY r.RDB$FIELD_POSITION';
 				"null" => (trim($row["FIELD_NOT_NULL_CONSTRAINT"]) == "YES"),
 				"auto_increment" => '0',
 				"collation" => trim($row["FIELD_COLLATION"]),
-				"privileges" => array("insert" => 1, "select" => 1, "update" => 1),
+				"privileges" => array("insert" => 1, "select" => 1, "update" => 1, "where" => 1, "order" => 1),
 				"comment" => trim($row["FIELD_DESCRIPTION"]),
 			);
 		}
@@ -287,38 +242,14 @@ ORDER BY RDB$INDEX_SEGMENTS.RDB$FIELD_POSITION';
 	}
 
 	function error() {
-		global $connection;
-		return h($connection->error);
+		return h(connection()->error);
 	}
 
-	function types() {
+	function types(): array {
 		return array();
-	}
-
-	function schemas() {
-		return array();
-	}
-
-	function get_schema() {
-		return "";
-	}
-
-	function set_schema($schema) {
-		return true;
 	}
 
 	function support($feature) {
 		return preg_match("~^(columns|sql|status|table)$~", $feature);
-	}
-
-	function driver_config() {
-		return array(
-			'possible_drivers' => array("interbase"),
-			'jush' => "firebird",
-			'operators' => array("="),
-			'functions' => array(),
-			'grouping' => array(),
-			'edit_functions' => array(),
-		);
 	}
 }

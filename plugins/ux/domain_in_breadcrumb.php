@@ -11,7 +11,7 @@ class AdminerDomainInBreadcrumb
 	function head()
 	{
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 			var breadcrumb = document.getElementById("breadcrumb");

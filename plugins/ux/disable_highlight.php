@@ -25,7 +25,7 @@ class AdminerDisableHighlight
 		if (in_array("textarea", $this->TYPES_LIST))
 		{
 ?>
-			<script<?=nonce()?>>
+			<script<?=Adminer\nonce()?>>
 			// disable jush for <textarea>
 			var textareas = document.getElementsByTagName("TEXTAREA");
 			cnt = textareas.length;
@@ -38,7 +38,7 @@ class AdminerDisableHighlight
 		if (in_array("code", $this->TYPES_LIST))
 		{
 ?>
-			<script<?=nonce()?>>
+			<script<?=Adminer\nonce()?>>
 			// disable jush for <code>
 			var textareas = document.getElementsByTagName("CODE");
 			cnt = textareas.length;
@@ -51,7 +51,7 @@ class AdminerDisableHighlight
 		if (in_array("textarea", $this->TYPES_LIST) && in_array("code", $this->TYPES_LIST))
 		{
 ?>
-			<script<?=nonce()?>>
+			<script<?=Adminer\nonce()?>>
 			document.addEventListener("DOMContentLoaded", function(event) { window.jush = null; });
 			</script>
 <?php

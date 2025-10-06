@@ -7,19 +7,19 @@
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
-class AdminerJsonColumn {
-	private function _testJson($value) {
+class AdminerJsonColumn extends Adminer\Plugin {
+	private function testJson($value) {
 		if ((substr($value, 0, 1) == '{' || substr($value, 0, 1) == '[') && ($json = json_decode($value, true))) {
 			return $json;
 		}
 		return $value;
 	}
 
-	private function _buildTable($json) {
-		echo '<table cellspacing="0" style="margin:2px; font-size:100%;">';
+	private function buildTable($json) {
+		echo '<table style="margin:2px; font-size:100%;">';
 		foreach ($json as $key => $val) {
 			echo '<tr>';
-			echo '<th>' . h($key) . '</th>';
+			echo '<th>' . Adminer\h($key) . '</th>';
 			echo '<td>';
 			if (is_scalar($val) || $val === null) {
 				if (is_bool($val)) {
@@ -27,11 +27,11 @@ class AdminerJsonColumn {
 				} elseif ($val === null) {
 					$val = 'null';
 				} elseif (!is_numeric($val)) {
-					$val = '"' . h(addcslashes($val, "\r\n\"")) . '"';
+					$val = '"' . Adminer\h(addcslashes($val, "\r\n\"")) . '"';
 				}
 				echo '<code class="jush-js">' . $val . '</code>';
 			} else {
-				$this->_buildTable($val);
+				$this->buildTable($val);
 			}
 			echo '</td>';
 			echo '</tr>';
@@ -40,9 +40,17 @@ class AdminerJsonColumn {
 	}
 
 	function editInput($table, $field, $attrs, $value) {
-		$json = $this->_testJson($value);
+		$json = $this->testJson($value);
 		if ($json !== $value) {
-			$this->_buildTable($json);
+			$this->buildTable($json);
 		}
 	}
+
+	protected $translations = array(
+		'cs' => array('' => 'Hodnoty JSON v editaci zobrazí formou tabulky'),
+		'de' => array('' => 'Zeigen Sie JSON-Werte als Tabelle in der Bearbeitung an'),
+		'pl' => array('' => 'Wyświetl wartości JSON jako tabelę w edycji'),
+		'ro' => array('' => 'Afișează valorile JSON sub formă de tabel în editare'),
+		'ja' => array('' => 'JSON 値をテーブルとして編集画面に表示'),
+	);
 }

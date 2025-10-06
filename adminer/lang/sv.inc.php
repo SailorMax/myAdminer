@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	// label for database system selection (MySQL, SQLite, ...)
 	'System' => 'System',
 	'Server' => 'Server',
@@ -89,7 +91,6 @@ $translations = array(
 	'Data' => 'Data',
 
 	'Database' => 'Databas',
-	'database' => 'databas',
 	'DB' => 'DB',
 	'Use' => 'Använd',
 	'Select database' => 'Välj databas',
@@ -207,7 +208,7 @@ $translations = array(
 	'Alter indexes' => 'Ändra index',
 	'Add next' => 'Lägg till nästa',
 	'Index Type' => 'Indextyp',
-	'Column (length)' => 'Kolumn (längd)',
+	'length' => 'längd',
 
 	'Foreign keys' => 'Främmande nycklar',
 	'Foreign key' => 'Främmande nyckel',
@@ -291,13 +292,6 @@ $translations = array(
 	'Delete' => 'Ta bort',
 	'You have no privileges to update this table.' => 'Du har inga privilegier för att uppdatera den här tabellen.',
 
-	'E-mail' => 'Email',
-	'From' => 'Från',
-	'Subject' => 'Ämne',
-	'Attachments' => 'Bilagor',
-	'Send' => 'Skicka',
-	'%d e-mail(s) have been sent.' => array('%d email har blivit skickat.', '%d email har blivit skickade.'),
-
 	// data type descriptions
 	'Numbers' => 'Nummer',
 	'Date and time' => 'Datum och tid',
@@ -347,3 +341,5 @@ $translations = array(
 	'Type has been created.' => 'Typ har skapats.',
 	'Alter type' => 'Ändra typ',
 );
+
+// run `php ../../lang.php sv` to update this file

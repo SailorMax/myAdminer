@@ -11,7 +11,7 @@ class AdminerSqlCommandTransaction
 	function head()
 	{
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 			var query_els = document.getElementsByName("query");

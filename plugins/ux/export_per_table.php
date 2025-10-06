@@ -10,13 +10,12 @@ class AdminerExportPerTable
 {
 	function head()
 	{
-		global $adminer;
-		if ($adminer->database() === null)
+		if (Adminer\adminer()->database() === null)
 			return;
 		if (function_exists("get_page_table") && (get_page_table() === ""))
 			return;
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 			// add "SQL commmand" to table content

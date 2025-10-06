@@ -6,16 +6,17 @@
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
+// this is matched by compile.php
+
+namespace Adminer;
 
 include "./include/bootstrap.inc.php";
 include "./include/tmpfile.inc.php";
 
-$enum_length = "'(?:''|[^'\\\\]|\\\\.)*'";
-$inout = "IN|OUT|INOUT";
-
 if (isset($_GET["select"]) && ($_POST["edit"] || $_POST["clone"]) && !$_POST["save"]) {
 	$_GET["edit"] = $_GET["select"];
 }
+// this is matched by compile.php
 if (isset($_GET["callf"])) {
 	$_GET["call"] = $_GET["callf"];
 }
@@ -59,6 +60,8 @@ if (isset($_GET["download"])) {
 	include "./sequence.inc.php";
 } elseif (isset($_GET["type"])) {
 	include "./type.inc.php";
+} elseif (isset($_GET["check"])) {
+	include "./check.inc.php";
 } elseif (isset($_GET["trigger"])) {
 	include "./trigger.inc.php";
 } elseif (isset($_GET["user"])) {

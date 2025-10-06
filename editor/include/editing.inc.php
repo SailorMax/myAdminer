@@ -1,23 +1,21 @@
 <?php
-/** Encode e-mail header in UTF-8
-* @param string
-* @return string
-*/
-function email_header($header) {
+namespace Adminer;
+
+function doc_link(array $paths, string $text = ""): string {
+	return "";
+}
+
+/** Encode e-mail header in UTF-8 */
+function email_header(string $header): string {
 	// iconv_mime_encode requires iconv, imap_8bit requires IMAP extension
 	return "=?UTF-8?B?" . base64_encode($header) . "?="; //! split long lines
 }
 
 /** Send e-mail in UTF-8
-* @param string
-* @param string
-* @param string
-* @param string
-* @param array
-* @return bool
+* @param array{error?:list<int>, type?:list<string>, name?:list<string>, tmp_name?:list<string>} $files
 */
-function send_mail($email, $subject, $message, $from = "", $files = array()) {
-	$eol = (DIRECTORY_SEPARATOR == "/" ? "\n" : "\r\n"); // PHP_EOL available since PHP 5.0.2
+function send_mail(string $email, string $subject, string $message, string $from = "", array $files = array()): bool {
+	$eol = PHP_EOL;
 	$message = str_replace("\n", $eol, wordwrap(str_replace("\r", "", "$message\n")));
 	$boundary = uniqid("boundary");
 	$attachments = "";
@@ -45,9 +43,8 @@ function send_mail($email, $subject, $message, $from = "", $files = array()) {
 }
 
 /** Check whether the column looks like boolean
-* @param array single field returned from fields()
-* @return bool
+* @param Field $field single field returned from fields()
 */
-function like_bool($field) {
+function like_bool(array $field): bool {
 	return preg_match("~bool|(tinyint|bit)\\(1\\)~", $field["full_type"]);
 }

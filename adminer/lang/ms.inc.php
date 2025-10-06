@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	// label for database system selection (MySQL, SQLite, ...)
 	'System' => 'Sistem',
 	'Server' => 'Pelayan',
@@ -82,7 +84,6 @@ $translations = array(
 	'Data' => 'Data',
 
 	'Database' => 'Pangkalan data',
-	'database' => 'pangkalan data',
 	'Use' => 'Guna',
 	'Select database' => 'Pilih pangkalan data',
 	'Invalid database.' => 'Pangkalan data tidak sah.',
@@ -198,7 +199,7 @@ $translations = array(
 	'Alter indexes' => 'Ubah indeks',
 	'Add next' => 'Tambah yang seterusnya',
 	'Index Type' => 'Jenis Indeks',
-	'Column (length)' => 'Kolum (kepanjangan)',
+	'length' => 'kepanjangan',
 
 	'Foreign keys' => 'Kunci asing',
 	'Foreign key' => 'Kunci asing',
@@ -282,13 +283,6 @@ $translations = array(
 	'Delete' => 'Padam',
 	'You have no privileges to update this table.' => 'Anda tidak mempunyai keistimewaan untuk mengemaskini jadual ini.',
 
-	'E-mail' => 'Emel',
-	'From' => 'Dari',
-	'Subject' => 'Subjek',
-	'Attachments' => 'Lampiran',
-	'Send' => 'Hantar',
-	'%d e-mail(s) have been sent.' => '%d emel telah dihantar.',
-
 	// data type descriptions
 	'Numbers' => 'Nombor',
 	'Date and time' => 'Tarikh dan masa',
@@ -338,3 +332,5 @@ $translations = array(
 	'Type has been created.' => 'Jenis telah dibuat.',
 	'Alter type' => 'Ubah jenis',
 );
+
+// run `php ../../lang.php ms` to update this file

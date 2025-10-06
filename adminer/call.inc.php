@@ -1,12 +1,14 @@
 <?php
-$PROCEDURE = ($_GET["name"] ? $_GET["name"] : $_GET["call"]);
+namespace Adminer;
+
+$PROCEDURE = ($_GET["name"] ?: $_GET["call"]);
 page_header(lang('Call') . ": " . h($PROCEDURE), $error);
 
 $routine = routine($_GET["call"], (isset($_GET["callf"]) ? "FUNCTION" : "PROCEDURE"));
 $in = array();
 $out = array();
 foreach ($routine["fields"] as $i => $field) {
-	if (substr($field["inout"], -3) == "OUT") {
+	if (substr($field["inout"], -3) == "OUT" && JUSH == 'sql') {
 		$out[$i] = "@" . idf_escape($field["field"]) . " AS " . idf_escape($field["field"]);
 	}
 	if (!$field["inout"] || substr($field["inout"], 0, 2) == "IN") {
@@ -17,45 +19,50 @@ foreach ($routine["fields"] as $i => $field) {
 if (!$error && $_POST) {
 	$call = array();
 	foreach ($routine["fields"] as $key => $field) {
+		$val = "";
 		if (in_array($key, $in)) {
 			$val = process_input($field);
 			if ($val === false) {
 				$val = "''";
 			}
 			if (isset($out[$key])) {
-				$connection->query("SET @" . idf_escape($field["field"]) . " = $val");
+				connection()->query("SET @" . idf_escape($field["field"]) . " = $val");
 			}
 		}
-		$call[] = (isset($out[$key]) ? "@" . idf_escape($field["field"]) : $val);
+		if (isset($out[$key])) {
+			$call[] = "@" . idf_escape($field["field"]);
+		} elseif (in_array($key, $in)) {
+			$call[] = $val;
+		}
 	}
-	
-	$query = (isset($_GET["callf"]) ? "SELECT" : "CALL") . " " . table($PROCEDURE) . "(" . implode(", ", $call) . ")";
+
+	$query = (isset($_GET["callf"]) ? "SELECT " : "CALL ") . ($routine["returns"]["type"] == "record" ? "* FROM " : "") . table($PROCEDURE) . "(" . implode(", ", $call) . ")";
 	$start = microtime(true);
-	$result = $connection->multi_query($query);
-	$affected = $connection->affected_rows; // getting warnigns overwrites this
-	echo $adminer->selectQuery($query, $start, !$result);
-	
+	$result = connection()->multi_query($query);
+	$affected = connection()->affected_rows; // getting warnings overwrites this
+	echo adminer()->selectQuery($query, $start, !$result);
+
 	if (!$result) {
 		echo "<p class='error'>" . error() . "\n";
 	} else {
 		$connection2 = connect();
-		if (is_object($connection2)) {
+		if ($connection2) {
 			$connection2->select_db(DB);
 		}
-		
+
 		do {
-			$result = $connection->store_result();
+			$result = connection()->store_result();
 			if (is_object($result)) {
-				select($result, $connection2);
+				print_select_result($result, $connection2);
 			} else {
 				echo "<p class='message'>" . lang('Routine has been called, %d row(s) affected.', $affected)
 					. " <span class='time'>" . @date("H:i:s") . "</span>\n" // @ - time zone may be not set
 				;
 			}
-		} while ($connection->next_result());
-		
+		} while (connection()->next_result());
+
 		if ($out) {
-			select($connection->query("SELECT " . implode(", ", $out)));
+			print_select_result(connection()->query("SELECT " . implode(", ", $out)));
 		}
 	}
 }
@@ -64,21 +71,18 @@ if (!$error && $_POST) {
 <form action="" method="post">
 <?php
 if ($in) {
-	echo "<table cellspacing='0' class='layout'>\n";
+	echo "<table class='layout'>\n";
 	foreach ($in as $key) {
 		$field = $routine["fields"][$key];
 		$name = $field["field"];
-		echo "<tr><th>" . $adminer->fieldName($field);
-		$value = $_POST["fields"][$name];
+		echo "<tr><th>" . adminer()->fieldName($field);
+		$value = idx($_POST["fields"], $name);
 		if ($value != "") {
-			if ($field["type"] == "enum") {
-				$value = +$value;
-			}
 			if ($field["type"] == "set") {
-				$value = array_sum($value);
+				$value = implode(",", $value);
 			}
 		}
-		input($field, $value, (string) $_POST["function"][$name]); // param name can be empty
+		input($field, $value, idx($_POST["function"], $name, "")); // param name can be empty
 		echo "\n";
 	}
 	echo "</table>\n";
@@ -86,5 +90,31 @@ if ($in) {
 ?>
 <p>
 <input type="submit" value="<?php echo lang('Call'); ?>">
-<input type="hidden" name="token" value="<?php echo $token; ?>">
+<?php echo input_token(); ?>
 </form>
+
+<pre>
+<?php
+/** Format string as table row
+* @return string HTML
+*/
+function pre_tr(string $s): string {
+	return preg_replace('~^~m', '<tr>', preg_replace('~\|~', '<td>', preg_replace('~\|$~m', "", rtrim($s))));
+}
+
+$table = '(\+--[-+]+\+\n)';
+$row = '(\| .* \|\n)';
+echo preg_replace_callback(
+	"~^$table?$row$table?($row*)$table?~m",
+	function ($match) {
+		$first_row = pre_tr($match[2]);
+		return "<table>\n" . ($match[1] ? "<thead>$first_row</thead>\n" : $first_row) . pre_tr($match[4]) . "\n</table>";
+	},
+	preg_replace(
+		'~(\n(    -|mysql)&gt; )(.+)~',
+		"\\1<code class='jush-sql'>\\3</code>",
+		preg_replace('~(.+)\n---+\n~', "<b>\\1</b>\n", h($routine['comment']))
+	)
+);
+?>
+</pre>

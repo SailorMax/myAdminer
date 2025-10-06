@@ -1,2 +1,4 @@
 <?php
-$connection->select_db($adminer->database());
+namespace Adminer;
+
+connection()->select_db(adminer()->database());

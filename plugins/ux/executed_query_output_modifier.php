@@ -23,7 +23,7 @@ class AdminerExecutedQueryOutputModifier
 	function head()
 	{
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 <?php

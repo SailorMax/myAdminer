@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	// label for database system selection (MySQL, SQLite, ...)
 	'System' => 'Sistem',
 	'Server' => 'Sunucu',
@@ -56,7 +58,7 @@ $translations = array(
 	'ATTACH queries are not supported.' => 'ATTACH sorguları desteklenmiyor.',
 	'Execute' => 'Çalıştır',
 	'Stop on error' => 'Hata oluşursa dur',
-	'Show only errors' => 'Sadece hataları göster.',
+	'Show only errors' => 'Sadece hataları göster',
 	// sprintf() format for time of the command
 	'%.3f s' => '%.3f s',
 	'History' => 'Geçmiş',
@@ -84,7 +86,6 @@ $translations = array(
 	'Data' => 'Veri',
 
 	'Database' => 'Veri Tabanı',
-	'database' => 'veri tabanı',
 	'DB' => 'DB',
 	'Use' => 'Kullan',
 	'Select database' => 'Veri tabanı seç',
@@ -201,7 +202,7 @@ $translations = array(
 	'Alter indexes' => 'İndeksleri değiştir',
 	'Add next' => 'Bundan sonra ekle',
 	'Index Type' => 'İndex Türü',
-	'Column (length)' => 'Kolon (uzunluğu)',
+	'length' => 'uzunluğu',
 
 	'Foreign keys' => 'Dış anahtarlar',
 	'Foreign key' => 'Dış anahtar',
@@ -224,7 +225,7 @@ $translations = array(
 	'Trigger has been dropped.' => 'Tetik silindi.',
 	'Trigger has been altered.' => 'Tetik değiştirildi.',
 	'Trigger has been created.' => 'Tetik oluşturuldu.',
-	'Alter trigger' => 'Tetiği değiştir.',
+	'Alter trigger' => 'Tetiği değiştir',
 	'Create trigger' => 'Tetik oluştur',
 	'Time' => 'Zaman',
 	'Event' => 'Olay',
@@ -285,13 +286,6 @@ $translations = array(
 	'Delete' => 'Sil',
 	'You have no privileges to update this table.' => 'Bu tabloyu güncellemek için yetkiniz yok.',
 
-	'E-mail' => 'E-posta',
-	'From' => 'Gönderen',
-	'Subject' => 'Konu',
-	'Attachments' => 'Ekler',
-	'Send' => 'Gönder',
-	'%d e-mail(s) have been sent.' => array('%d e-posta gönderildi.', '%d adet e-posta gönderildi.'),
-
 	// data type descriptions
 	'Numbers' => 'Sayılar',
 	'Date and time' => 'Tarih ve zaman',
@@ -306,7 +300,7 @@ $translations = array(
 	// date format in Editor: $1 yyyy, $2 yy, $3 mm, $4 m, $5 dd, $6 d
 	'$1-$3-$5' => '$6.$4.$1',
 	// hint for date format - use language equivalents for day, month and year shortcuts
-	'[yyyy]-mm-dd' => '[yyyy]-aa-gg',
+	'[yyyy]-mm-dd' => 'g.a.[yyyy]',
 	// hint for time format - use language equivalents for hour, minute and second shortcuts
 	'HH:MM:SS' => 'SS:DD:ss',
 	'now' => 'şimdi',
@@ -341,3 +335,5 @@ $translations = array(
 	'Type has been created.' => 'Tür oluşturuldu.',
 	'Alter type' => 'Türü değiştir',
 );
+
+// run `php ../../lang.php tr` to update this file

@@ -1,5 +1,7 @@
 <?php
-$translations = array(
+namespace Adminer;
+
+Lang::$translations = array(
 	'Login' => 'Authentification',
 	'Logout successful.' => 'Au revoir !',
 	'Invalid credentials.' => 'Authentification échouée.',
@@ -30,7 +32,6 @@ $translations = array(
 	'Create database' => 'Créer une base de données',
 	'SQL command' => 'Requête SQL',
 	'Logout' => 'Déconnexion',
-	'database' => 'base de données',
 	'Use' => 'Utiliser',
 	'No tables.' => 'Aucune table.',
 	'select' => 'select',
@@ -94,7 +95,7 @@ $translations = array(
 	'ON DELETE' => 'ON DELETE',
 	'ON UPDATE' => 'ON UPDATE',
 	'Index Type' => 'Type d\'index',
-	'Column (length)' => 'Colonne (longueur)',
+	'length' => 'longueur',
 	'View has been dropped.' => 'La vue a été effacée.',
 	'View has been altered.' => 'La vue a été modifiée.',
 	'View has been created.' => 'La vue a été créée.',
@@ -211,11 +212,6 @@ $translations = array(
 	'Binary' => 'Binaires',
 	'Lists' => 'Listes',
 	'Editor' => 'Éditeur',
-	'E-mail' => 'Courriel',
-	'From' => 'De',
-	'Subject' => 'Sujet',
-	'Send' => 'Envoyer',
-	'%d e-mail(s) have been sent.' => array('%d message a été envoyé.', '%d messages ont été envoyés.'),
 	'Webserver file %s' => 'Fichier %s du serveur Web',
 	'File does not exist.' => 'Le fichier est introuvable.',
 	'%d in total' => '%d au total',
@@ -241,7 +237,7 @@ $translations = array(
 	'Type has been dropped.' => 'Le type a été supprimé.',
 	'Type has been created.' => 'Le type a été créé.',
 	'Ctrl+click on a value to modify it.' => 'Ctrl+cliquez sur une valeur pour la modifier.',
-	'Use edit link to modify this value.' => 'Utilisez le lien "modifier" pour modifier cette valeur.',
+	'Use edit link to modify this value.' => 'Utilisez le lien \'modifier\' pour modifier cette valeur.',
 	'last' => 'dernière',
 	'From server' => 'Depuis le serveur',
 	'System' => 'Système',
@@ -251,7 +247,6 @@ $translations = array(
 	'Network' => 'Réseau',
 	'Geometry' => 'Géométrie',
 	'File exists.' => 'Le fichier existe.',
-	'Attachments' => 'Pièces jointes',
 	'Item%s has been inserted.' => 'L\'élément%s a été inséré.',
 	'now' => 'maintenant',
 	'%d query(s) executed OK.' => array('%d requête exécutée avec succès.', '%d requêtes exécutées avec succès.'),
@@ -288,4 +283,18 @@ $translations = array(
 	'Default value' => 'Valeur par défaut',
 	'If you did not send this request from Adminer then close this page.' => 'Si vous n\'avez pas envoyé cette requête depuis Adminer, alors fermez cette page.',
 	'You are offline.' => 'Vous êtes hors ligne.',
+	'Drop %s?' => 'Supprimer %s?',
+	'overwrite' => 'écraser',
+	'DB' => 'BD',
+	'ATTACH queries are not supported.' => 'Requêtes ATTACH ne sont pas supportées.',
+	'Warnings' => 'Avertissements',
+	'Adminer does not support accessing a database without a password, <a href="https://www.adminer.org/en/password/"%s>more information</a>.' => 'Adminer ne supporte pas l\'accès aux bases de données sans mot de passe, <a href="https://www.adminer.org/en/password/"%s>plus d\'information</a>.',
+	'The action will be performed after successful login with the same credentials.' => 'Cette action sera exécutée après s\'être connecté avec les mêmes données de connexion.',
+	'Connecting to privileged ports is not allowed.' => 'La connexion aux ports privilégiés n\'est pas autorisée.',
+	'There is a space in the input password which might be the cause.' => 'Il y a un espace dans le mot de passe entré qui pourrait en être la cause.',
+	'Unknown error.' => 'Erreur inconnue.',
+	'Database does not support password.' => 'La base de données ne support pas les mots de passe.',
+	'Disable %s or enable %s or %s extensions.' => 'Désactiver %s ou activer %s or %s extensions.',
 );
+
+// run `php ../../lang.php fr` to update this file

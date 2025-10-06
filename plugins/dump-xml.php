@@ -6,10 +6,9 @@
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
-class AdminerDumpXml {
-	/** @access protected */
-	var $database = false;
-	
+class AdminerDumpXml extends Adminer\Plugin {
+	protected $database = false;
+
 	function dumpFormat() {
 		return array('xml' => 'XML');
 	}
@@ -19,25 +18,19 @@ class AdminerDumpXml {
 			return true;
 		}
 	}
-	
-	function _database() {
-		echo "</database>\n";
-	}
-	
+
 	function dumpData($table, $style, $query) {
 		if ($_POST["format"] == "xml") {
 			if (!$this->database) {
 				$this->database = true;
-				echo "<database name='" . h(DB) . "'>\n";
-				register_shutdown_function(array($this, '_database'));
+				echo "<database name='" . Adminer\h(Adminer\DB) . "'>\n";
 			}
-			$connection = connection();
-			$result = $connection->query($query, 1);
+			$result = Adminer\connection()->query($query, 1);
 			if ($result) {
 				while ($row = $result->fetch_assoc()) {
-					echo "\t<table name='" . h($table) . "'>\n";
+					echo "\t<table name='" . Adminer\h($table) . "'>\n";
 					foreach ($row as $key => $val) {
-						echo "\t\t<column name='" . h($key) . "'" . (isset($val) ? "" : " null='null'") . ">" . h($val) . "</column>\n";
+						echo "\t\t<column name='" . Adminer\h($key) . "'" . (isset($val) ? "" : " null='null'") . ">" . Adminer\h($val) . "</column>\n";
 					}
 					echo "\t</table>\n";
 				}
@@ -53,4 +46,17 @@ class AdminerDumpXml {
 		}
 	}
 
+	function dumpFooter() {
+		if ($_POST["format"] == "xml" && $this->database) {
+			echo "</database>\n";
+		}
+	}
+
+	protected $translations = array(
+		'cs' => array('' => 'Export do formátu XML ve struktuře <database name=""><table name=""><column name="">value'),
+		'de' => array('' => 'Export im XML-Format in der Struktur <database name="><table name=""><column name="">value'),
+		'pl' => array('' => 'Zrzut do formatu XML w strukturze <database name=""><table name=""><column name="">value'),
+		'ro' => array('' => 'Dump în format XML în structura <database name=""><table name=""><column name="">value'),
+		'ja' => array('' => '構造化 XML 形式でエクスポート <database name=""><table name=""><column name="">value'),
+	);
 }

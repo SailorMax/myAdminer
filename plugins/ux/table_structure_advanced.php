@@ -22,13 +22,12 @@ class AdminerTableStructureAdvanced
 
 	function head()
 	{
-		global $adminer;
-		if ($adminer->database() === null)
+		if (Adminer\adminer()->database() === null)
 			return;
 
 		global $TABLE;
 ?>
-		<script<?=nonce()?>>
+		<script<?=Adminer\nonce()?>>
 		document.addEventListener("DOMContentLoaded", function(event)
 		{
 <?php
@@ -200,7 +199,7 @@ class AdminerTableStructureAdvanced
 
 						// restore confirmations
 						var initScript = document.createElement("SCRIPT");
-						initScript.nonce = '<?=nonce()?>'.replace(/^[^"]+"/, "").replace(/"$/, "");
+						initScript.nonce = '<?=Adminer\nonce()?>'.replace(/^[^"]+"/, "").replace(/"$/, "");
 						var initScriptLines = [];
 						var inputs = fieldset.getElementsByTagName("INPUT");
 						var i, cnt = inputs.length;
@@ -221,6 +220,12 @@ class AdminerTableStructureAdvanced
 									next_script = next_script.nextSibling;
 								}
 							}
+
+						var new_token = document.createElement("INPUT");
+						new_token.type = "hidden";
+						new_token.name = "token";
+						new_token.value = request.responseText.match(/<input\s[^>]*name=[\'\"]token[\'\"]\s[^>]*value=[\'\"]([^\'\"]+)[\'\"]/)[1];
+						form.appendChild(new_token);
 
 						content.insertBefore(form, fieldset_anchor);
 						initScript.innerText = initScriptLines.join(";");

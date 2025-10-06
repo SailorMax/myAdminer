@@ -109,6 +109,10 @@ tbody tr:hover td,tbody tr:hover th{
 	background:#edf4ff
 }
 
+thead{
+	top: 44px;
+}
+
 thead th, thead td {
 	text-align:center;
 	vertical-align:middle;
@@ -133,11 +137,11 @@ th {
 	background:white;
 }
 
-tr.odd td {
+.odds tbody tr:nth-child(2n) {
 	background:#fcfaf5;
 }
 
-#content tbody tr.checked td, tr.checked.odd td {
+#content tbody tr.checked td, .odds tbody tr.checked:nth-child(2n) td {
 	background:#fbe2e2;
 	color:red;
 }
@@ -216,32 +220,28 @@ tr.odd td {
 	color:white;
 }
 
-input[name=logout] {
+#logout {
 	color:#fce2e2;
 	background:#d73e3e;
 }
 
-input[name=logout]:hover {
+#logout:hover {
 	background:#ea0202;
 }
 
-#logins a, #tables a { 
+#logins a, #tables a {
 	background:none;
 }
 
-#logins a:hover, #tables a:hover { 
+#logins a:hover, #tables a:hover {
 	background:#A0522D;
 	color:white;
 }
 
-#logout {
-	color:#0033ff;
-	text-decoration:none;
-}
-
-#logout:hover {
-	color:white;
-	background:#0033ff;
+.logout {
+	z-index: 2;
+	background-color: #f2eee1;
+	box-shadow: 0 0 5px 5px #f2eee1;
 }
 
 .js .column {
