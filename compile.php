@@ -190,11 +190,6 @@ function get_translations($lang) {
 	}
 	return $translations;
 }
-
-if (!$translations) {
-	$translations = get_translations($LANG);
-	$_SESSION["translations"] = $translations;
-}
 ';
 }
 
