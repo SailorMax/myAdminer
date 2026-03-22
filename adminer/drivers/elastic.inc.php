@@ -26,6 +26,8 @@ if (isset($_GET["elastic"])) {
 					$this->error = $php_errormsg;
 					return $file;
 				}
+				if (!isset($http_response_header) && function_exists('http_get_last_response_headers'))
+					$http_response_header = http_get_last_response_headers();
 				if (!preg_match('~^HTTP/[0-9.]+ 2~i', $http_response_header[0])) {
 					$this->error = lang('Invalid credentials.') . " $http_response_header[0]";
 					return false;
