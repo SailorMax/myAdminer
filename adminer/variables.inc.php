@@ -5,7 +5,7 @@ $status = isset($_GET["status"]);
 page_header($status ? lang('Status') : lang('Variables'));
 adminer()->startLinks();
 
-$variables = ($status ? show_status() : show_variables());
+$variables = ($status ? adminer()->showStatus() : adminer()->showVariables());
 if (!$variables) {
 	echo "<p class='message'>" . lang('No rows.') . "\n";
 } else {
